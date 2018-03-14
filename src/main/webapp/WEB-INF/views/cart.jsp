@@ -54,10 +54,7 @@
 </div>
 
 <div class="row" style="padding-top: 55px;padding-left: 120px">
-    <a href="<spring:url value="/welcome/home" />"
-       class="btn btn-default"> <span
-            class="glyphicon-hand-left glyphicon"></span> Continue shopping
-    </a>
+
 </div>
 
 <section class="container" style="padding-top: 15px">
@@ -119,9 +116,7 @@
 
                         </c:forEach>
 
-                            <a href= "<spring:url value="/welcome/rest/cart/book?ISBN=${book.ISBN}"/>" >
-                                <input type="submit" value="<spring:message text="Place Order" />"  class="btn btn-primary btn-sm" />
-                            </a>
+
 
 
 

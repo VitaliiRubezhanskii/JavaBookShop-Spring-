@@ -51,7 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/welcome/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/welcome/rest/checkout**").access("hasRole('ROLE_USER')")
+                .antMatchers("/welcome/admin/books/*").access("hasRole('ROLE_ADMIN')")
+               // .antMatchers("/welcome/rest/checkout**").access("hasRole('ROLE_USER')")
 
                 .and()
                 .formLogin()
@@ -64,10 +65,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/login?logout")
                 .and()
-                .csrf()
-                .and()
+
+
                 .rememberMe().tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(1209600);
+        http.csrf().disable();
 
     }
 

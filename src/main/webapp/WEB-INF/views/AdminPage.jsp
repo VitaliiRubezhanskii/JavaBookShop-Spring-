@@ -69,11 +69,13 @@ body, html {
 </head>
 <body>
 
-<button class="tablink" onclick="openPage('Books', this, '#00008B')">Books</button>
+<button class="tablink" onclick="openPage('Books', this, '#00008B')" id="defaultOpen">Books</button>
 <button class="tablink" onclick="openPage('Sales', this, '#00008B')">Sales</button>
+
+<div id="Books" class="tabcontent">
 <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
 <form:form action="${addAction}" commandName="newBook">
-<div id="Books" class="tabcontent">
+
 
   
   <div class="container">
@@ -141,15 +143,11 @@ body, html {
        </form>
 	   
 	   
-         </div>
-    </div>
+
+
 </form:form>
        
         <br>
-
-
-
-       
             <div class="generic-container">
                 <div class="panel panel-default">
                     <table class="table table-hover tablesorter" id="myTable">
@@ -175,16 +173,13 @@ body, html {
                                 <td><a href="" class="btn btn-success custom-width">edit</a></td>
                                 <td><a href="" class="btn btn-danger custom-width">delete</a></td>
                             </tr>
-
-
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
             </div>
-  
-  
-
+</div>
+</div>
 
 
 
@@ -194,44 +189,9 @@ body, html {
 
 
 <div id="Sales" class="tabcontent">
-
-  
   
             <div class="well lead">Sales and Orders</div>
-<div class="generic-container">
-
-                <div class="panel panel-default">
-                    <table class="table table-hover">
-                        <thead>
-                        <th>Book ID</th>
-                        <th>ISBN</th>
-                        <th>Title</th>
-                        <th>Publisher</th>
-                        <th>Language</th>
-                        <th>Details</th>
-                        </thead>
-                        <tbody>
-
-                        <c:forEach items="${listBooks}" var="book">
-                            <tr>
-                                <td>${book.bookId}</td>
-                                <td>${book.ISBN}</td>
-                                <td>${book.bookTitle}</td>
-                                <td>${book.publisher}</td>
-                                <td>${book.language}</td>
-                                <td>${book.details}</td>
-
-                            </tr>
-
-
-                  </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-			
-			
-			
+        <div class="generic-container">
 			<div class="generic-container">
                 <div class="panel panel-default">
                     <table class="table table-hover">
@@ -253,21 +213,15 @@ body, html {
                                 <td>${book.publisher}</td>
                                 <td>${book.language}</td>
                                 <td>${book.details}</td>
-
-                              
                             </tr>
-
-
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
             </div>
-  
 </div>
-
+</div>
 <script>
-
 function openPage(pageName,elmnt,color) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -280,7 +234,6 @@ function openPage(pageName,elmnt,color) {
     }
     document.getElementById(pageName).style.display = "block";
     elmnt.style.backgroundColor = color;
-
 }
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
