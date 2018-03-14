@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+            <title>New Book</title>
+
+            <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap.min.css"
+                  th:href="@{/webjars/bootstrap/2.3.0/css/bootstrap.min.css}" rel="stylesheet" />
+
+            <link href="../../../resources/css/bookshop.css"
+                  th:href="@{/resources/css/bookshop.css}" rel="stylesheet" />
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"
+                    th:src="@{/webjars/jquery/1.9.0/jquery.js}"></script>
+            <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"
+                    th:src="@{/webjars/jquery-ui/1.9.2/js/jquery-ui-1.9.2.custom.js}"></script>
+
+            <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/smoothness/jquery-ui.css"
+                  th:href="@{/webjars/jquery-ui/1.9.2/css/smoothness/jquery-ui-1.9.2.custom.css}" rel="stylesheet" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+        </head>
+
+
+            <body>
+
+            <div class="jumbotron">
+
+            <div class="navbar">
+                    <img id="first" align="left" th:src="@{/resources/images/Duke4.png}"
+                         src="../../../resources/images/Duke4.png" />
+
+                <h3 class="header">Java Books </h3>
+                <h3 class="header">For those who like Java </h3>
+
+            </div>
+            </div>
+
+                    <div class="navbar-outer">
+                        <div class="navbar-inner">
+                            <ul class="nav">
+                                <li class="menu"><a href="../welcome.html" th:href="@{/}"><i class="fa fa-home" style="font-size:24px"></i>  Home</a></li>
+                                <li class="menu"><a href="../owners/findOwners.html" th:href="@{/owners/find.html}"><i class="glyphicon glyphicon-book" style="font-size:20px"></i>  Find books</a></li>
+                                <li class="menu"><a href="../vets/vetList.html" th:href="@{/vets.html}"><i class="glyphicon glyphicon-list" style="font-size:24px"></i>  Categories</a></li>
+                                <li class="menu"><a href="../" th:href="@{/vets.html}"><i class="fa fa-info-circle" style="font-size:24px"></i>  About</a></li>
+                            </ul>
+                        </div>
+                        <form>  <input type="text" name="search" placeholder="Search.."></form>
+                    </div>
+
+
+
+            <div id="center">
+
+            </div>
+            <div class="al">
+                <div class="pagination">
+                    <a href="#">&laquo;</a>
+                    <a href="#">1</a>
+                    <a href="#" class="active">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">6</a>
+                    <a href="#">&raquo;</a>
+                </div>
+            </div>
+
+            <div id="footer">
+
+                    <p>© 2018 Java Books</p>
+                    <p>Created by Rubezhanskii Vitalii</p>
+
+
+
+            </div>
+
+            </body>
+    </html>
