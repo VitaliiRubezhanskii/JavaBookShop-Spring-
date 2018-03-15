@@ -196,27 +196,46 @@ body, html {
                 <div class="panel panel-default">
                     <table class="table table-hover">
                         <thead>
-                        <th>Book ID</th>
-                        <th>ISBN</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Cover</th>
                         <th>Title</th>
-                        <th>Publisher</th>
-                        <th>Language</th>
-                        <th>Details</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${listBooks}" var="book">
+
+                            <c:set var="total" value="${x.book.price*x.book.bookQuantity}"/>
+
+
+                        <c:forEach items="${orders}" var="order">
+                            <c:set var="total" value="${order.book.price*order.book.bookQuantity}"/>
                             <tr>
-                                <td>${book.bookId}</td>
-                                <td>${book.ISBN}</td>
-                                <td>${book.bookTitle}</td>
-                                <td>${book.publisher}</td>
-                                <td>${book.language}</td>
-                                <td>${book.details}</td>
+                                <td>${order.customer.firstName}</td>
+                                <td>${order.customer.lastName}</td>
+                                <td>${order.customer.email}</td>
+                                <td><img  class="card-block text-nowrap" src="<c:url value="/resources/images/${order.book.coverImage}.jpg"></c:url>" alt="" width="90" height="135" ></td>
+                                <td>${order.book.bookTitle}</td>
+                                <td>${order.book.bookQuantity}</td>
+                                <td>${order.book.price}</td>
+                                <td>${total}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
+
+                    <c:set var="total" value="${0}"/>
+
+                    <c:forEach var="x" items="${orders}">
+                        <c:set var="total" value="${total+x.book.price*x.book.bookQuantity}"/>
+                    </c:forEach>
+
+                    <h3 class="text-center">Total: ${total} $</h3>
+
                 </div>
             </div>
 </div>

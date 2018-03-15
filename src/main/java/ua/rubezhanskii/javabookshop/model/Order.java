@@ -1,10 +1,7 @@
 package ua.rubezhanskii.javabookshop.model;
 
-import ua.rubezhanskii.javabookshop.dto.CartItemDto;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 public class Order implements Serializable {
@@ -12,37 +9,44 @@ public class Order implements Serializable {
 
 
     private Integer orderId;
-    private Integer bookId;
+    private Book book;
     private Date orderDate;
-    private List<CartItemDto> cartItems;
+  //  private List<CartItemDto> cartItems;
     private Customer customer;
+    private String globalId;
 
     public Order() {
     }
 
-    public Order(Integer orderId, Integer bookId, Date orderDate, List<CartItemDto> cartItems, Customer customer) {
+    public Order(Integer orderId, Book book, Date orderDate, Customer customer, String globalId) {
         this.orderId = orderId;
-        this.bookId = bookId;
+        this.book = book;
         this.orderDate = orderDate;
-        this.cartItems = cartItems;
         this.customer = customer;
+        this.globalId = globalId;
     }
 
-    public Integer getBookId() {
-        return bookId;
+    public String getGlobalId() {
+        return globalId;
+    }
+    public void setGlobalId(String globalId) {
+        this.globalId = globalId;
     }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+    public Book getBook() {
+        return book;
+    }
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public List<CartItemDto> getCartItems() {
+  /*  public List<CartItemDto> getCartItems() {
         return cartItems;
     }
 
     public void setCartItems(List<CartItemDto> cartItems) {
         this.cartItems = cartItems;
-    }
+    }*/
 
     public Integer getOrderId() {
         return orderId;
@@ -73,7 +77,7 @@ public class Order implements Serializable {
         return "Order{" +
                 "orderId=" + orderId +
                 ", orderDate='" + orderDate + '\'' +
-                ", cartItem='" + cartItems + '\'' +
+                ", cartItem='" + /*cartItems + '\''*/
                 ", customer=" + customer +
                 '}';
     }

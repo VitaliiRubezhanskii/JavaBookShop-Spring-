@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
+import ua.rubezhanskii.javabookshop.datamanagement.jdbc.OrderJdbcTemplate;
 import ua.rubezhanskii.javabookshop.model.Book;
 
 @Controller
@@ -17,6 +18,8 @@ public class BookController {
 
    @Autowired
    private BookJdbcTemplate bookJdbcTemplate;
+   @Autowired
+   private OrderJdbcTemplate orderJdbcTemplate;
 
 //<=================================================get View with Books================================================>
 @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -24,6 +27,7 @@ public ModelAndView getBookPage(ModelAndView model) {
     Book book=new Book();
     model.addObject("newBook", book);
     model.addObject("listBooks",bookJdbcTemplate.getBooks());
+    model.addObject("orders",orderJdbcTemplate.getOrders());
     model.setViewName("AdminPage");
     return model;
 }
