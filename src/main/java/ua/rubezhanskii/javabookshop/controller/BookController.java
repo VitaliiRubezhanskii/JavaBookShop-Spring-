@@ -22,14 +22,14 @@ public class BookController {
    private OrderJdbcTemplate orderJdbcTemplate;
 
 //<=================================================get View with Books================================================>
-@RequestMapping(value = "/", method = RequestMethod.GET)
-public ModelAndView getBookPage(ModelAndView model) {
-    Book book=new Book();
-    model.addObject("newBook", book);
-    model.addObject("listBooks",bookJdbcTemplate.getBooks());
-    model.addObject("orders",orderJdbcTemplate.getOrders());
-    model.setViewName("AdminPage");
-    return model;
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView getBookPage(ModelAndView model) {
+        Book book=new Book();
+        model.addObject("newBook", book);
+        model.addObject("listBooks",bookJdbcTemplate.getBooks());
+        model.addObject("orders",orderJdbcTemplate.getOrders());
+        model.setViewName("AdminPage");
+        return model;
 }
 
     //<==========================================Add Book==========================================================>
