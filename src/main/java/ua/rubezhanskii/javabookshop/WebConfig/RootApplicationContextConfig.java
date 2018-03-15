@@ -1,7 +1,6 @@
 package ua.rubezhanskii.javabookshop.WebConfig;
 
 
-import com.mysql.jdbc.Driver;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -65,10 +64,10 @@ public class RootApplicationContextConfig {
     @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/javazone");
-        dataSource.setPassword("qaz123");
-        dataSource.setUsername("root");
-        dataSource.setDriverClassName(Driver.class.getName());
+        dataSource.setUrl("jdbc:postgresql://ec2-54-75-239-237.eu-west-1.compute.amazonaws.com:5432/ddbvi80qhggkbp");
+        dataSource.setPassword("70ad865b6bf1e60f493f86a1f3b524959192208fbf843922d4768f3fc639a9ce");
+        dataSource.setUsername("widkfvjsrdumxl");
+        dataSource.setDriverClassName(org.postgresql.Driver.class.getName());
         dataSource.setMaxTotal(5);
         dataSource.setInitialSize(3);
         return dataSource;
