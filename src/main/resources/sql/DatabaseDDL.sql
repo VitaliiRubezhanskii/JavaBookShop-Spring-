@@ -1,7 +1,7 @@
+CREATE DATABASE javabookshop;
 CREATE TABLE author
 (
-  authorId INT AUTO_INCREMENT
-    PRIMARY KEY,
+  authorId  SERIAL PRIMARY KEY,
   author1  VARCHAR(30) NULL,
   author2  VARCHAR(30) NULL,
   author3  VARCHAR(30) NULL,
@@ -10,8 +10,7 @@ CREATE TABLE author
 
 CREATE TABLE book
 (
-  bookId         INT AUTO_INCREMENT
-    PRIMARY KEY,
+  bookId         SERIAL PRIMARY KEY,
   coverImage     VARCHAR(30)    NULL,
   price          DOUBLE         NULL,
   bookTitle      VARCHAR(250)   NULL,
@@ -29,8 +28,8 @@ CREATE TABLE bookxauthor
 (
   bookId   INT NULL,
   authorId INT NULL,
-  id       INT AUTO_INCREMENT
-    PRIMARY KEY
+  id        SERIAL PRIMARY KEY
+
 );
 
 CREATE TABLE cart
@@ -45,15 +44,14 @@ CREATE TABLE cart
 
 CREATE TABLE category
 (
-  categoryId INT AUTO_INCREMENT
-    PRIMARY KEY,
+  categoryId  SERIAL PRIMARY KEY,
+
   category   VARCHAR(30) NULL
 );
 
 CREATE TABLE customer
 (
-  customerId  INT AUTO_INCREMENT
-    PRIMARY KEY,
+  customerId  SERIAL PRIMARY KEY,
   firstName   VARCHAR(50)  NULL,
   lastName    VARCHAR(50)  NULL,
   address     VARCHAR(60)  NULL,
@@ -68,8 +66,7 @@ CREATE TABLE customer
 
 CREATE TABLE ordertable
 (
-  orderId    INT AUTO_INCREMENT
-    PRIMARY KEY,
+  orderId   SERIAL PRIMARY KEY,
   customerId INT         NULL,
   orderDate  DATETIME    NULL,
   globalId   VARCHAR(36) NULL,
@@ -87,7 +84,7 @@ CREATE TABLE persistent_logins
 
 CREATE TABLE user_roles
 (
-  user_role_id INT AUTO_INCREMENT
+  user_role_id SERIAL
     PRIMARY KEY,
   username     VARCHAR(45) NOT NULL,
   role         VARCHAR(45) NOT NULL,
@@ -107,3 +104,4 @@ CREATE TABLE users
   enabled  TINYINT DEFAULT '1' NOT NULL,
   role     VARCHAR(255)        NULL
 );
+

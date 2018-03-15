@@ -1,4 +1,4 @@
-INSERT INTO javazone.author (authorId, author1, author2, author3, author4) VALUES
+INSERT INTO author (authorId, author1, author2, author3, author4) VALUES
   (1, 'Lubos Krnac', NULL, NULL, NULL),
   (2, 'Felipe Gutierrez', NULL, NULL, NULL),
   (3, 'Felipe Gutierrez', NULL, NULL, NULL),
@@ -42,7 +42,7 @@ INSERT INTO javazone.author (authorId, author1, author2, author3, author4) VALUE
   (42, 'test', NULL, NULL, NULL);
 
 
-INSERT INTO javazone.book (bookId, coverImage, price, bookTitle, categoryId, publisher, ISBN, lang, details, authorId, bookQuantity, inventoryStock) VALUES
+INSERT INTO book (bookId, coverImage, price, bookTitle, categoryId, publisher, ISBN, lang, details, authorId, bookQuantity, inventoryStock) VALUES
   (1, 'ISBN 978-1-4842-0793-2', 37.95, 'Pivotal Certified Spring Enterprise Integration Specialist Exam A Study Guide', 1, 'Apress', 'ISBN 978-1-4842-0793-2', 'English', ' ', 1, 1, NULL),
   (2, 'ISBN 978-1-4842-1224-0', 29.99, 'Spring Boot Messaging Messaging APIs for Enterprise and Integration Solutions', 1, 'Apress', 'ISBN 978-1-4842-1224-0', 'English', ' ', 2, 1, NULL),
   (3, 'ISBN 978-1-4842-1240-0', 37.95, 'Spring Cloud Data Flow Native Cloud Orchestration Services for Microservice Applications on Modern Runtimes', 1, 'Apress', 'ISBN 978-1-4842-1240-0', 'English', ' ', 3, 1, NULL),
@@ -85,7 +85,7 @@ INSERT INTO javazone.book (bookId, coverImage, price, bookTitle, categoryId, pub
   (40, NULL, 50.2, 'test', 11, 'test', 'test', 'test', 'test', 42, NULL, NULL);
 
 
-INSERT INTO javazone.bookxauthor (bookId, authorId, id) VALUES
+INSERT INTO bookxauthor (bookId, authorId, id) VALUES
   (1, 1, 1),
   (2, 2, 2),
   (3, 3, 3),
@@ -127,7 +127,7 @@ INSERT INTO javazone.bookxauthor (bookId, authorId, id) VALUES
   (39, 39, 39);
 
 
-INSERT INTO javazone.category (categoryId, category) VALUES
+INSERT INTO category (categoryId, category) VALUES
   (1, 'Spring'),
   (2, 'OOP and Patterns'),
   (3, 'Java SE'),
@@ -141,17 +141,17 @@ INSERT INTO javazone.category (categoryId, category) VALUES
   (11, 'test');
 
 
-INSERT INTO javazone.customer (customerId, firstName, lastName, address, city, zip, country, phoneHome, phoneMobile, email, login) VALUES
+INSERT INTO customer (customerId, firstName, lastName, address, city, zip, country, phoneHome, phoneMobile, email, login) VALUES
   (1, 'Vitalii', 'Rubezhanskii', 'Hv. Shyronintsev,67', 'Kharkov', 61100, 'Ukraine', '', +380502788594, 'vitalii.rubezhanskii@gmail.com', 'mkyong'),
   (2, 'Sergey', 'Rubezhanskii', 'Vesnyana 38', 'Burluk', 61110, 'Ukraine', '', +380502788531, 'sergey.rubezhanskii@gmail.com', 'sergey'),
   (6, 'Denis', 'Petrov', 'Pavlovka', 'Kharkov', 61000, 'Ukraine', 502788594, 502788594, 'Vitalii.Rubezhanskii@gmail.com', NULL);
 
 
-INSERT INTO javazone.users (username, password, enabled, role) VALUES
+INSERT INTO users (username, password, enabled, role) VALUES
   ('admin', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.', 1, 'ROLE_USER'),
   ('Vitalii', '$2a$10$TOKiNP5wXzYCzR3x4qPJ8uEj8qByzoQb6WPhCLJ9DQo5yrW8DRi4S', 1, NULL);
 
-INSERT INTO javazone.user_roles (user_role_id, username, role) VALUES
+INSERT INTO user_roles (user_role_id, username, role) VALUES
   (2, 'admin', 'ROLE_ADMIN'),
   (1, 'admin', 'ROLE_USER'),
   (6, 'Vitalii', 'ROLE_USER');
