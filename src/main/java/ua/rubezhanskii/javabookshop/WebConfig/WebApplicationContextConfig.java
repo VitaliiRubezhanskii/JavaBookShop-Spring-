@@ -10,18 +10,15 @@ import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import ua.rubezhanskii.javabookshop.reports.ExcelView;
 
-
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Configuration
@@ -56,6 +53,13 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.jsp("/WEB-INF/views/", ".jsp");
+        registry.enableContentNegotiation(new ExcelView());
+
+    }
+
   /*  @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     List<HttpMessageConverter<?>>messageConverters=new ArrayList<>();
@@ -70,7 +74,12 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
                 .ignoreAcceptHeader(true)
                 .mediaType("html", MediaType.TEXT_HTML)
                 .mediaType("json", MediaType.APPLICATION_JSON)
-                .defaultContentType(MediaType.TEXT_HTML);
+                .defaultContentType(MediaType.TEXT_HTML)
+                .parameterName("type")
+                .favorParameter(true)
+                .ignoreUnknownPathExtensions(false)
+                .ignoreAcceptHeader(false);
+
     }
 
 
