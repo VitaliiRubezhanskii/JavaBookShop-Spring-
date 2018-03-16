@@ -36,6 +36,11 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         return view;
     }
 
+    @Bean
+    public ExcelView excelView(){
+        return  new ExcelView();
+    }
+
    @Bean
     RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -56,7 +61,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.jsp("/WEB-INF/views/", ".jsp");
-        registry.enableContentNegotiation(new ExcelView());
+        registry.enableContentNegotiation(excelView());
 
     }
 
