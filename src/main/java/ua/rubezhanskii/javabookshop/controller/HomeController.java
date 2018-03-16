@@ -66,8 +66,15 @@ public class HomeController {
 
     @RequestMapping(value = "/welcome/book")
     public String getProductById(@RequestParam("ISBN") String ISBN, Model model) {
-        model.addAttribute("book", bookJdbcTemplate.getBookByISBN(ISBN));
-        //    model.addAttribute("countCartItems",cartJdbcTemplate.countItems(1));
+          model.addAttribute("book", bookJdbcTemplate.getBookByISBN(ISBN));
+          model.addAttribute("countCartItems",cartJdbcTemplate.countItems(System.getProperty("user.name")));
+          boolean b=false;
+       if (cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId())) {
+           b = true;
+       }else {
+           b=false;
+       }
+        model.addAttribute("trigger",b);
         return "BookPage";
     }
 

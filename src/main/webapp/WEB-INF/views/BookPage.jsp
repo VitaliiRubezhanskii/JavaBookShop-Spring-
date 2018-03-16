@@ -198,6 +198,11 @@ body {font-family: "Lato", sans-serif;}
                 </div>
             </div>
 
+                        <c:if test="${trigger}">
+                            <div class="alert alert-warning">
+                                <strong>Warning!</strong> This alert box could indicate a warning that might need attention.
+                            </div>
+                        </c:if>
 
             <a href= "<spring:url value="/welcome/rest/cart/book?ISBN=${book.ISBN}"/>" >
                 <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />

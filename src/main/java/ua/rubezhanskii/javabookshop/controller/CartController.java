@@ -35,17 +35,9 @@ public class CartController {
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@RequestParam("ISBN")String ISBN, ModelAndView modelAndView) {
 
-        boolean ifExists=false;
-        try {
-             ifExists =cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId());
-        }catch (Exception e){e.printStackTrace();
-        }
 
-        if(ifExists){
-
-        }else {
             cartJdbcTemplate.save(bookJdbcTemplate.getBookByISBN(ISBN));
-        }
+
         return new ModelAndView("redirect:/welcome/rest/cart/");
     }
 
@@ -83,6 +75,15 @@ public class CartController {
 
        // cartJdbcTemplate.saveOrder();
         return new ModelAndView("redirect:/welcome/rest/cart/");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public  ModelAndView handleRuntimeException(RuntimeException ex){
+    ModelAndView modelAndView=new ModelAndView("redirect:/welcome/rest/cart/");
+    //modelAndView.setViewName("cart");
+    modelAndView.addObject("trigger",new Book());
+    return  modelAndView;
+
     }
 
 
