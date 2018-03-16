@@ -49,6 +49,12 @@ public class CartController {
         cartJdbcTemplate.delete(bookId);
         return new ModelAndView("redirect:/welcome/rest/cart/");
     }
+
+    @RequestMapping(value = "/remove")
+    private ModelAndView clearCart(){
+        cartJdbcTemplate.deleteAll();
+        return new ModelAndView("redirect:/welcome/rest/cart/");
+    }
     //<==========================================Edit Category=========================================================>
 
     @RequestMapping("/edit/{bookId}")

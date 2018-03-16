@@ -67,7 +67,7 @@
 
     <c:if test="${!empty listItems}">
         <div>
-            <a href="" class="btn btn-danger pull-left">
+            <a href="<spring:url value="/welcome/rest/cart/remove"/>" class="btn btn-danger pull-left">
                 <span class="glyphicon glyphicon-remove-sign"></span> Clear Cart
             </a>
 

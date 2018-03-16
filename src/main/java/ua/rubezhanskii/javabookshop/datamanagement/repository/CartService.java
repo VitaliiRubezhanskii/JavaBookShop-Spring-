@@ -11,6 +11,7 @@ public interface CartService {
     void update(Book book);
     void save(Book book);
     void delete(Integer bookId);
+    void deleteAll();
     List<CartItemDto> getCartItems();
     void saveOrder(Customer customer);
     boolean exists(Integer bookId);

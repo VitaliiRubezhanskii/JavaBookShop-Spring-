@@ -46,12 +46,12 @@ public class CartJdbcTemplate implements CartService{
         jdbcTemplate.update("DELETE FROM cart WHERE bookId=?", bookId);
     }
 
-  /*  public void saveOrder(Integer machineName){
-        jdbcTemplate.update("UPDATE cart SET status='completed' WHERE customerId=?",customerId);
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("Delete FROM cart WHERE bookId>0");
+    }
 
-    }*/
-
-  public void deleteByCustomer(String machineName){
+    public void deleteByCustomer(String machineName){
       jdbcTemplate.update("DELETE FROM cart WHERE machineName=?",machineName);
   }
 
