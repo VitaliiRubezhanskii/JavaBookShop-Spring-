@@ -132,7 +132,7 @@ body {font-family: "Lato", sans-serif;}
 	
         <div class=" navbar navbar-default navbar-fixed-top" id="navbar-collapse-2">
 
-		<ul class="nav navbar-nav" style="text-center">
+		<ul class="nav navbar-nav">
 			<li><a href="<spring:url value="/welcome/home"/>">Home</a></li>
 			<li><a href="#">About</a></li>
 		</ul>
@@ -202,13 +202,12 @@ body {font-family: "Lato", sans-serif;}
                             <div id="warning" class="alert alert-warning" style="display:none;">
                                 <strong>Warning!</strong> This book already exists in the cart
                             </div>
-                            <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
+                            <input type="submit" onclick="show()" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
                         </c:if>
 
 
 
                     </form:form>
-            </form>
 
                 <br>
                 <a href="<spring:url value="/welcome/home"/>"
