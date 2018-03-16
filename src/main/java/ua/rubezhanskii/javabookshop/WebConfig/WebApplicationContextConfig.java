@@ -106,6 +106,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         resolver.setContentNegotiationManager(manager);
         ArrayList<View> views=new ArrayList<View>();
         views.add(jsonView());
+        views.add(excelView());
         resolver.setDefaultViews(views);
         return  resolver;
     }
