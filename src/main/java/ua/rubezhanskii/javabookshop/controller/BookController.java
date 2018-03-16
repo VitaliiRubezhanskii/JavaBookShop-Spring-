@@ -22,7 +22,7 @@ public class BookController {
    private OrderJdbcTemplate orderJdbcTemplate;
 
 //<=================================================get View with Books================================================>
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/excel",method = RequestMethod.GET)
     public ModelAndView getBookPage(ModelAndView model) {
         Book book=new Book();
         model.addObject("newBook", book);
