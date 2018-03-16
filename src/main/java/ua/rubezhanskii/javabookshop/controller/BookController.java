@@ -2,6 +2,7 @@ package ua.rubezhanskii.javabookshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +24,13 @@ public class BookController {
 
 //<=================================================get View with Books================================================>
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public ModelAndView getBookPage(ModelAndView model) {
+    public String getBookPage(Model model) {
         Book book=new Book();
-        model.addObject("newBook", book);
-        model.addObject("listBooks",bookJdbcTemplate.getBooks());
-        model.addObject("orders",orderJdbcTemplate.getOrders());
-        model.setViewName("AdminPage");
-        return model;
+        model.addAttribute("newBook", book);
+        model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
+        model.addAttribute("orders",orderJdbcTemplate.getOrders());
+       // model.setViewName("AdminPage");
+        return "AdminPage";
 }
 
     //<==========================================Add Book==========================================================>
