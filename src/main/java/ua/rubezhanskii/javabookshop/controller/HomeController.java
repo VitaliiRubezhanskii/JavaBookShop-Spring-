@@ -1,7 +1,6 @@
 package ua.rubezhanskii.javabookshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -76,8 +75,8 @@ public class HomeController {
         return "BookPage";
     }
 
-    @ExceptionHandler(BadSqlGrammarException.class)
-    public  ModelAndView handleRuntimeException(RuntimeException ex){
+    @ExceptionHandler(Exception.class)
+    public  ModelAndView handleRuntimeException(){
         ModelAndView modelAndView=new ModelAndView("redirect:/welcome/home");
         //modelAndView.setViewName("cart");
         modelAndView.addObject("trigger",true);
