@@ -35,11 +35,11 @@ public class CartController {
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@RequestParam("ISBN")String ISBN) {
 
-        if(cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId())){
+       /* if(cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId())){
             cartJdbcTemplate.update(bookJdbcTemplate.getBookByISBN(ISBN));
-        }else {
+        }else {*/
             cartJdbcTemplate.save(bookJdbcTemplate.getBookByISBN(ISBN));
-        }
+
         return new ModelAndView("redirect:/welcome/rest/cart/");
     }
 
