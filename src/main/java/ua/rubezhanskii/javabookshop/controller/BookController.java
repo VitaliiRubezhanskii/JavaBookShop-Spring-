@@ -44,7 +44,7 @@ public class BookController {
     }
     //<==========================================Remove Category==========================================================>
     @RequestMapping(value = "/remove/{bookId}")
-    private ModelAndView removeBook(@PathVariable("bookId") Integer bookId){
+    public ModelAndView removeBook(@PathVariable("bookId") Integer bookId){
         bookJdbcTemplate.delete(bookId);
         return new ModelAndView("redirect:/welcome/admin/books/");
     }

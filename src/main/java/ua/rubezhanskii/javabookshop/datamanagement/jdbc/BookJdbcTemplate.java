@@ -26,20 +26,19 @@ public class BookJdbcTemplate  implements BookService {
 
     @Override
     public void update(Book book) {
-        jdbcTemplate.update("UPDATE book SET coverImage=?, authorId=?, price=?, bookTitle=?, categoryId=?, publisher=?, ISBN=?, lang=?, details=? " +
+          jdbcTemplate.update("UPDATE book SET coverImage=?, authorId=?, price=?, bookTitle=?, categoryId=?, publisher=?, ISBN=?, lang=?, details=? " +
                         "WHERE bookId=?", book.getCoverImage(), book.getAuthor().getAuthorId(),book.getPrice(),book.getBookTitle(),book.getCategory().getCategoryId(),book.getPublisher(),book.getISBN(),
                 book.getLanguage(),book.getDetails(),book.getBookId());
-
     }
 
     @Override
     public void save(Book book) {
-
        Integer categoryId=categoryJdbcTemplate.save(book.getCategory());
         Integer authorId=authorJdbcTemplate.save(book.getAuthor());
         jdbcTemplate.update("INSERT INTO book(coverImage, authorId, price, bookTitle, categoryId,  publisher, ISBN, lang, details) " +
                                 "VALUES (?,?,?,?,?,?,?,?,?)", book.getCoverImage(),authorId,book.getPrice(),book.getBookTitle(),categoryId,book.getPublisher(),
                                  book.getISBN(),book.getLanguage(),book.getDetails());
+
     }
 
     @Override
@@ -60,6 +59,7 @@ public class BookJdbcTemplate  implements BookService {
     @Override
     public void delete(Integer bookId) {
         jdbcTemplate.update("DELETE FROM book WHERE bookId=?", bookId);
+
     }
 
     @Override
