@@ -188,7 +188,7 @@ body {font-family: "Lato", sans-serif;}
                     <strong>Price </strong> : ${book.price} $
                 </p>
 
-                    <c:url var="addAction"  value="/welcome/rest/cart/book?ISBN=${book.ISBN}" ></c:url>
+                    <c:url var="addAction"  value="" ></c:url>
                     <form:form action="${addAction}" commandName="book">
 
                     <div class="row">
