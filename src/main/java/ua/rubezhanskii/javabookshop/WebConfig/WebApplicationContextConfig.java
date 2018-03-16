@@ -27,8 +27,6 @@ import java.util.List;
 public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
 
 
-
-
     @Bean
     public MappingJackson2JsonView jsonView() {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
