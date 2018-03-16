@@ -205,11 +205,7 @@ body {font-family: "Lato", sans-serif;}
                             <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
                         </c:if>
 
-                        <c:if test="${not trigger}">
-            <a href= "<spring:url value="/welcome/rest/cart/book?ISBN=${book.ISBN}"/>" >
-                <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
-            </a>
-                        </c:if>
+
 
                     </form:form>
             </form>
