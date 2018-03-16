@@ -200,7 +200,7 @@ body {font-family: "Lato", sans-serif;}
 
                         <c:if test="${not trigger}">
                             <div class="alert alert-warning">
-                                <strong>Warning!</strong> This alert box could indicate a warning that might need attention.
+                                <strong>Warning!</strong> This book already exists in the cart
                             </div>
                         </c:if>
 
