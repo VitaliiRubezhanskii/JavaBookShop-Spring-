@@ -199,7 +199,7 @@ body {font-family: "Lato", sans-serif;}
             </div>
 
                         <c:if test="${trigger}">
-                            <div class="alert alert-warning">
+                            <div id="warning" class="alert alert-warning" style="display:none;">
                                 <strong>Warning!</strong> This book already exists in the cart
                             </div>
                             <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
@@ -266,7 +266,15 @@ function openPage(pageName,elmnt,color) {
 }
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
-</script>
+
+
+function show() {
+    if(document.getElementById('warning').style.display=='none') {
+        document.getElementById('warning').style.display='block';
+    }
+    return false;
+}
+    </script>
 
 </body>
 
