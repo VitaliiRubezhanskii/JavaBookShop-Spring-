@@ -77,14 +77,7 @@ public class CartController {
         return new ModelAndView("redirect:/welcome/rest/cart/");
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public  ModelAndView handleRuntimeException(RuntimeException ex){
-    ModelAndView modelAndView=new ModelAndView("redirect:/welcome/rest/cart/");
-    //modelAndView.setViewName("cart");
-    modelAndView.addObject("trigger",new Book());
-    return  modelAndView;
 
-    }
 
 
 

@@ -1,12 +1,10 @@
 package ua.rubezhanskii.javabookshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
@@ -77,6 +75,16 @@ public class HomeController {
         model.addAttribute("trigger",b);
         return "BookPage";
     }
+
+    @ExceptionHandler(BadSqlGrammarException.class)
+    public  ModelAndView handleRuntimeException(RuntimeException ex){
+        ModelAndView modelAndView=new ModelAndView("redirect:/welcome/home");
+        //modelAndView.setViewName("cart");
+        modelAndView.addObject("trigger",true);
+        return  modelAndView;
+
+    }
+
 
   /*  @RequestMapping("/welcome/search/book")
     public String searchResult(){
