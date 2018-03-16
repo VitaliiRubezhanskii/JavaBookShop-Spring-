@@ -3,7 +3,7 @@ package ua.rubezhanskii.javabookshop.reports;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.web.servlet.view.document.AbstractXlsxView;
+import org.springframework.web.servlet.view.document.AbstractXlsView;
 import ua.rubezhanskii.javabookshop.model.Book;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-public class ExcelView extends AbstractXlsxView {
+public class ExcelView extends AbstractXlsView {
     @Override
     protected void buildExcelDocument(Map<String, Object> model,
                                       Workbook workbook,
