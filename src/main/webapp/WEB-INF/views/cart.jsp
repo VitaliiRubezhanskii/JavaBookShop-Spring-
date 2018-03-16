@@ -66,6 +66,13 @@
 
 
     <c:if test="${!empty listItems}">
+
+        <c:if test="${trigger}=='exists'">
+            <div class="alert alert-warning">
+            <strong>Warning!</strong> This alert box could indicate a warning that might need attention.
+        </div>
+    </c:if>
+
         <div>
             <a href="<spring:url value="/welcome/rest/cart/remove"/>" class="btn btn-danger pull-left">
                 <span class="glyphicon glyphicon-remove-sign"></span> Clear Cart

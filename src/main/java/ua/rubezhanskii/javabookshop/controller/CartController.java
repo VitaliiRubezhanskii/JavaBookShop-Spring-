@@ -24,7 +24,7 @@ public class CartController {
     public ModelAndView getCartPage(@ModelAttribute("cartItem") Book book, ModelAndView model) {
        // Book book=new Book();
         model.addObject("listItems",cartJdbcTemplate.getCartItemsByMachineName(System.getProperty("user.name")));
-
+       // model.addObject("trigger",false);
        model.addObject("cartItem",new Book());//TODO
         model.setViewName("cart");
         return model;
@@ -33,13 +33,19 @@ public class CartController {
 
     //<==========================================Add Category==========================================================>
     @RequestMapping(value = "/book", method = RequestMethod.POST)
-    public ModelAndView saveOrUpdate(@RequestParam("ISBN")String ISBN) {
+    public ModelAndView saveOrUpdate(@RequestParam("ISBN")String ISBN, ModelAndView modelAndView) {
 
-       /* if(cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId())){
-            cartJdbcTemplate.update(bookJdbcTemplate.getBookByISBN(ISBN));
-        }else {*/
+        boolean ifExists;
+        try {
+             ifExists =cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId());
+        }catch (Exception e){return new ModelAndView("redirect:/welcome/rest/cart/").addObject("trigger", "exists");
+        }
+
+        if(ifExists){
+
+        }else {
             cartJdbcTemplate.save(bookJdbcTemplate.getBookByISBN(ISBN));
-
+        }
         return new ModelAndView("redirect:/welcome/rest/cart/");
     }
 
