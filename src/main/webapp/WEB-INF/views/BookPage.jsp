@@ -198,7 +198,7 @@ body {font-family: "Lato", sans-serif;}
                 </div>
             </div>
 
-                        <c:if test="${trigger}">
+                        <c:if test="${not trigger}">
                             <div class="alert alert-warning">
                                 <strong>Warning!</strong> This alert box could indicate a warning that might need attention.
                             </div>

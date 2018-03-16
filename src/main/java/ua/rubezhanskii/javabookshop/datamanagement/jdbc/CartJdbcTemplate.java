@@ -85,8 +85,8 @@ public class CartJdbcTemplate implements CartService{
     }
 
     @Override
-    public boolean exists(Integer bookId) {
-       List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM cart WHERE bookId=?",new Object[]{bookId},
+    public boolean exists(String ISBN) {
+       List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM cart WHERE ISBN=?",new Object[]{ISBN},
                new CartRowMapper());
         return books.size()<1 ? false : true;
     }
