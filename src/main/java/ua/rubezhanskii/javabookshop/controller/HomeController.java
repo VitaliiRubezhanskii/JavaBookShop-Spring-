@@ -66,7 +66,7 @@ public class HomeController {
           model.addAttribute("book", bookJdbcTemplate.getBookByISBN(ISBN));
           model.addAttribute("countCartItems",cartJdbcTemplate.countItems(System.getProperty("user.name")));
           boolean b=false;
-       if (cartJdbcTemplate.exists(ISBN)) {
+       if (cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId())) {
            b = true;
        }else {
            b=false;

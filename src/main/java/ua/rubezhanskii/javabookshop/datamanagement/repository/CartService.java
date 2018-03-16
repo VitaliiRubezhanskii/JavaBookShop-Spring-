@@ -14,6 +14,6 @@ public interface CartService {
     void deleteAll();
     List<CartItemDto> getCartItems();
     void saveOrder(Customer customer);
-    boolean exists(String ISBN);
+    boolean exists(Integer bookId);
 
 }
