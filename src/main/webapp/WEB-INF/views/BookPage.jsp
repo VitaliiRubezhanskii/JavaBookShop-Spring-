@@ -198,16 +198,18 @@ body {font-family: "Lato", sans-serif;}
                 </div>
             </div>
 
-                        <c:if test="${not trigger}">
+                        <c:if test="${trigger}">
                             <div class="alert alert-warning">
                                 <strong>Warning!</strong> This book already exists in the cart
                             </div>
+                            <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
                         </c:if>
 
+                        <c:if test="${not trigger}">
             <a href= "<spring:url value="/welcome/rest/cart/book?ISBN=${book.ISBN}"/>" >
                 <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
             </a>
-
+                        </c:if>
 
                     </form:form>
             </form>
