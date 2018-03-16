@@ -27,7 +27,7 @@ public class ExcelView extends AbstractXlsView {
         response.setHeader("Content-Disposition", "attachment; filename=\"my-xlsx-file.xlsx\"");
 
         @SuppressWarnings("unchecked")
-        List<Book> books = bookJdbcTemplate.getBooks();
+        List<Book> books = (List<Book>) model.get("listBooks");
 
         // create excel xls sheet
         Sheet sheet = workbook.createSheet("Spring MVC AbstractXlsxView");
