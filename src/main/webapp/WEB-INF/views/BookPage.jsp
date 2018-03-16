@@ -188,7 +188,7 @@ body {font-family: "Lato", sans-serif;}
                     <strong>Price </strong> : ${book.price} $
                 </p>
 
-                    <c:url var="addAction"  value="" ></c:url>
+                    <c:url var="addAction"  value="/welcome/rest/cart/book?ISBN=${book.ISBN}" ></c:url>
                     <form:form action="${addAction}" commandName="book">
 
                     <div class="row">
@@ -204,7 +204,7 @@ body {font-family: "Lato", sans-serif;}
                             </div>
 
                         <c:if test="${trigger}">
-                            <input type="submit" onclick="show()" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
+                            <input type="button" onclick="show()" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
                         </c:if>
 
                         <c:if test="${not trigger}">
