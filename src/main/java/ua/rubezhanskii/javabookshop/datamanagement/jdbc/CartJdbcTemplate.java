@@ -86,8 +86,7 @@ public class CartJdbcTemplate implements CartService{
 
     @Override
     public boolean exists(Integer bookId) {
-        boolean b=false;
-        List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM cart WHERE bookId=?",new Object[]{bookId},
+       List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM cart WHERE bookId=?",new Object[]{bookId},
                new CartRowMapper());
         return books.size()<1 ? false : true;
     }
@@ -128,7 +127,7 @@ public class CartJdbcTemplate implements CartService{
             cart.setBookQuantity(rs.getInt("bookQuantity"));
             cart.setGlobalId(rs.getString("globalId"));
             cart.setCreationTime(rs.getString("creationTime"));
-            cart.setCustomer(customerJdbcTemplate.getCustomerById(rs.getInt("customerId")));
+           // cart.setCustomer(customerJdbcTemplate.getCustomerById(rs.getInt("customerId")));
             return cart;
         }
     }

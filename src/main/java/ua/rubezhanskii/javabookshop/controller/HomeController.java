@@ -75,14 +75,7 @@ public class HomeController {
         return "BookPage";
     }
 
-    @ExceptionHandler(Exception.class)
-    public  ModelAndView handleRuntimeException(){
-        ModelAndView modelAndView=new ModelAndView("redirect:/welcome/home");
-        //modelAndView.setViewName("cart");
-        modelAndView.addObject("trigger",true);
-        return  modelAndView;
 
-    }
 
 
   /*  @RequestMapping("/welcome/search/book")
