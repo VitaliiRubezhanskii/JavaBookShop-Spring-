@@ -35,10 +35,10 @@ public class CartController {
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@RequestParam("ISBN")String ISBN, ModelAndView modelAndView) {
 
-        boolean ifExists;
+        boolean ifExists=false;
         try {
              ifExists =cartJdbcTemplate.exists(bookJdbcTemplate.getBookByISBN(ISBN).getBookId());
-        }catch (Exception e){return new ModelAndView("redirect:/welcome/rest/cart/").addObject("trigger", "exists");
+        }catch (Exception e){e.printStackTrace();
         }
 
         if(ifExists){
