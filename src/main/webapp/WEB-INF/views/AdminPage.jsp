@@ -80,7 +80,7 @@ body, html {
 
         <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
         <form:form action="${addAction}" commandName="newBook">
-
+            <td><a href="<c:url value='/welcome/admin/books.xls' />" class="btn btn-success custom-width">Excel</a></td>
             <div class="well lead">Add Book</div>
 
 		<form>
