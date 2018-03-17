@@ -20,7 +20,7 @@ public class BookController {
    private OrderJdbcTemplate orderJdbcTemplate;
 
 //<=================================================get View with Books================================================>
-    @RequestMapping(value = "/",method = RequestMethod.GET)
+    @RequestMapping(value = "",method = RequestMethod.GET)
     public String getBookPage(Model model) {
         Book book=new Book();
         model.addAttribute("newBook", book);
