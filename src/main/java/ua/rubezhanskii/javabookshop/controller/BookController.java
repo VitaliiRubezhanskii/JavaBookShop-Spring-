@@ -29,15 +29,15 @@ public class BookController {
        // model.setViewName("AdminPage");
         return "AdminPage";
 }
-  /*  @RequestMapping(value = "{id}",method = RequestMethod.GET)
-    public String getExcel(@PathVariable("id") String id, Model model) {
+   @RequestMapping(value = "/excel",method = RequestMethod.GET)
+    public String getExcel( Model model) {
         Book book=new Book();
        // model.addAttribute("newBook", book);
         model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
        // model.addAttribute("orders",orderJdbcTemplate.getOrders());
         // model.setViewName("AdminPage");
-        return "AdminPage";
-    }*/
+        return "excelView";
+    }
 
 
     //<==========================================Add Book==========================================================>

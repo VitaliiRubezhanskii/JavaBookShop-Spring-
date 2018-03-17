@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
 import ua.rubezhanskii.javabookshop.model.Book;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+@Component("excelView")
 public class ExcelView extends AbstractXlsView {
     @Autowired
     private BookJdbcTemplate bookJdbcTemplate;
