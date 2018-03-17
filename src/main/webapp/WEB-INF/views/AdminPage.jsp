@@ -76,12 +76,7 @@ body, html {
 
 
     <div class="container">
-        <c:url var="addAction"  value="/welcome/admin/books.xls" ></c:url>
-    <form:form action="${addAction}" commandName="newBook">
-        <a href= "<spring:url value="/welcome/admin/books.xls"/>" >
-            <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
-        </a>
-    </form:form>
+
 
         <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
         <form:form action="${addAction}" commandName="newBook">
