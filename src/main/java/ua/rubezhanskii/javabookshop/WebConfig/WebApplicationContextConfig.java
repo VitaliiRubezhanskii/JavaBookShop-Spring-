@@ -4,10 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.accept.ContentNegotiationManager;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -18,7 +15,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import ua.rubezhanskii.javabookshop.reports.ExcelView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Configuration
@@ -39,7 +35,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         return  new ExcelView();
     }
 
-   @Bean
+ /*  @Bean
     RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -48,7 +44,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
        restTemplate.setMessageConverters(converters);
         return restTemplate;
     }
-
+*/
 
 
     @Override
@@ -72,9 +68,9 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(true)
+        configurer//favorPathExtension(true)
                 .useJaf(false)
-                .ignoreAcceptHeader(true)
+
                 .mediaType("html", MediaType.TEXT_HTML)
                 .mediaType("json", MediaType.APPLICATION_JSON)
                 .defaultContentType(MediaType.TEXT_HTML)
@@ -104,7 +100,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         resolver.setContentNegotiationManager(manager);
         ArrayList<View> views=new ArrayList<View>();
         views.add(jsonView());
-        views.add(excelView());
+       // views.add(excelView());
         resolver.setDefaultViews(views);
         return  resolver;
     }
