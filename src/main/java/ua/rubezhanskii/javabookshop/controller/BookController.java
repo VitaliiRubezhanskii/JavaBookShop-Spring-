@@ -21,7 +21,7 @@ public class BookController {
 
 //<=================================================get View with Books================================================>
     @RequestMapping(value = "/books",method = RequestMethod.GET)
-    public String getBookPage(@RequestParam("type") Model model) {
+    public String getBookPage(Model model) {
         Book book=new Book();
         model.addAttribute("newBook", book);
         model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
