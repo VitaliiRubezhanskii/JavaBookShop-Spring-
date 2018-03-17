@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.view.document.AbstractXlsxView;
+import org.springframework.web.servlet.view.document.AbstractXlsView;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
 import ua.rubezhanskii.javabookshop.model.Book;
 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-public class ExcelView extends AbstractXlsxView {
+public class ExcelView extends AbstractXlsView {
     @Autowired
     private BookJdbcTemplate bookJdbcTemplate;
 
@@ -24,7 +24,7 @@ public class ExcelView extends AbstractXlsxView {
                                       HttpServletResponse response) throws Exception {
 
         // change the file name
-        response.setHeader("Content-Disposition", "attachment; filename=\"my-xlsx-file.xlsx\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"my-xlsx-file.xls\"");
 
         @SuppressWarnings("unchecked")
         List<Book> books = (List<Book>) model.get("listBooks");
