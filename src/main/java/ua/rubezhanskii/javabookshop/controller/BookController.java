@@ -23,7 +23,7 @@ public class BookController {
    private OrderJdbcTemplate orderJdbcTemplate;
 
 //<=================================================get View with Books================================================>
-    @RequestMapping(value = "/.xls",method = RequestMethod.GET)
+    @RequestMapping(value = "",method = RequestMethod.GET)
     public String getBookPage(Model model) {
         Book book=new Book();
         model.addAttribute("newBook", book);
@@ -32,6 +32,13 @@ public class BookController {
        // model.setViewName("AdminPage");
         return "AdminPage";
 }
+
+    @RequestMapping(value = "/.xls",method = RequestMethod.GET)
+    public String downloadExcel(Model model) {
+        model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
+
+        return "AdminPage";
+    }
 
     //<==========================================Add Book==========================================================>
     @RequestMapping(value = "/addBook", method = RequestMethod.POST)
