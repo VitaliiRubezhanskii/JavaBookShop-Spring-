@@ -79,6 +79,10 @@ body, html {
 
   
   <div class="container">
+
+      <a href= "<spring:url value="/welcome/admin/books.xls"/>" >
+          <input type="submit" value="<spring:message text="Excel" />"  class="btn btn-primary btn-sm" />
+      </a>
             <div class="well lead">Add Book</div>
 
 		<form>
