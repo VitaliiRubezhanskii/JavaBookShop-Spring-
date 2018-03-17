@@ -3,17 +3,14 @@ package ua.rubezhanskii.javabookshop.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.OrderJdbcTemplate;
 import ua.rubezhanskii.javabookshop.model.Book;
 
 @Controller
-@RequestMapping("/welcome/admin/books")
+@RequestMapping("/welcome/admin")
 public class BookController {
 
 
@@ -23,8 +20,8 @@ public class BookController {
    private OrderJdbcTemplate orderJdbcTemplate;
 
 //<=================================================get View with Books================================================>
-    @RequestMapping(value = "",method = RequestMethod.GET)
-    public String getBookPage(Model model) {
+    @RequestMapping(value = "/books",method = RequestMethod.GET)
+    public String getBookPage(@RequestParam("type") Model model) {
         Book book=new Book();
         model.addAttribute("newBook", book);
         model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
@@ -33,15 +30,9 @@ public class BookController {
         return "AdminPage";
 }
 
-    @RequestMapping(value = "/.xls",method = RequestMethod.GET)
-    public String downloadExcel(Model model) {
-        model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
-
-        return "AdminPage";
-    }
 
     //<==========================================Add Book==========================================================>
-    @RequestMapping(value = "/addBook", method = RequestMethod.POST)
+    @RequestMapping(value = "/books/addBook", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@ModelAttribute("book")Book book) {
         if(bookJdbcTemplate.exists(book.getBookId())){
             bookJdbcTemplate.update(book);
@@ -51,21 +42,21 @@ public class BookController {
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
     //<==========================================Remove Category==========================================================>
-    @RequestMapping(value = "/remove/{bookId}")
+    @RequestMapping(value = "/books/remove/{bookId}")
     public ModelAndView removeBook(@PathVariable("bookId") Integer bookId){
         bookJdbcTemplate.delete(bookId);
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
     //<==========================================Edit Category==========================================================>
 
-    @RequestMapping("/edit/{bookId}")
+    @RequestMapping("/books/edit/{bookId}")
     public ModelAndView editBook(@PathVariable("bookId") Integer bookId){
         Book book=bookJdbcTemplate.getBookById(bookId);
         return new ModelAndView("AdminPage","newBook",book);
 
     }
 
-    @RequestMapping(value = "/edit/save",method = RequestMethod.POST)
+    @RequestMapping(value = "/books/edit/save",method = RequestMethod.POST)
     public ModelAndView editSave(@ModelAttribute("book") Book book){
         bookJdbcTemplate.update(book);
         return new ModelAndView("redirect:/welcome/admin/books/");
