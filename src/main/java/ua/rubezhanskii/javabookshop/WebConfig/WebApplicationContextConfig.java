@@ -68,8 +68,8 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer//favorPathExtension(true)
-                .useJaf(false)
+        configurer//.favorPathExtension(true)
+                .useJaf(true)
 
                 .mediaType("html", MediaType.TEXT_HTML)
                 .mediaType("json", MediaType.APPLICATION_JSON)
@@ -100,7 +100,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         resolver.setContentNegotiationManager(manager);
         ArrayList<View> views=new ArrayList<View>();
         views.add(jsonView());
-       // views.add(excelView());
+        views.add(excelView());
         resolver.setDefaultViews(views);
         return  resolver;
     }
