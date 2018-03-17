@@ -51,12 +51,12 @@ public class ExcelView extends AbstractXlsView {
             row.createCell(0).setCellValue(book.getBookId());
             row.createCell(1).setCellValue(book.getISBN());
             row.createCell(2).setCellValue(book.getBookTitle());
-            row.createCell(0).setCellValue(book.getAuthor().getAuthor1());
-            row.createCell(1).setCellValue(book.getCategory().getCategory());
-            row.createCell(2).setCellValue(book.getPublisher());
-            row.createCell(0).setCellValue(book.getLanguage());
-            row.createCell(1).setCellValue(book.getInventoryStock());
-            row.createCell(2).setCellValue(book.getBookQuantity());
+            row.createCell(3).setCellValue(book.getAuthor().getAuthor1());
+            row.createCell(4).setCellValue(book.getCategory().getCategory());
+            row.createCell(5).setCellValue(book.getPublisher());
+            row.createCell(6).setCellValue(book.getLanguage());
+            row.createCell(7).setCellValue(book.getInventoryStock());
+            row.createCell(8).setCellValue(book.getBookQuantity());
 
         }
 
