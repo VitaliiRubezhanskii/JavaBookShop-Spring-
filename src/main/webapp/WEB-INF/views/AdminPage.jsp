@@ -73,16 +73,16 @@ body, html {
 <button class="tablink" onclick="openPage('Sales', this, '#00008B')">Sales</button>
 
 <div id="Books" class="tabcontent">
-<c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
-<form:form action="${addAction}" commandName="newBook">
 
 
-  
-  <div class="container">
+    <div class="container">
+        <a href= "<spring:url value="/welcome/admin/books.xls"/>" >
+            <input type="submit" value="<spring:message text="Excel" />"  class="btn btn-primary btn-sm" />
+        </a>
 
-      <a href= "<spring:url value="/welcome/admin/books.xls"/>" >
-          <input type="submit" value="<spring:message text="Excel" />"  class="btn btn-primary btn-sm" />
-      </a>
+        <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
+        <form:form action="${addAction}" commandName="newBook">
+
             <div class="well lead">Add Book</div>
 
 		<form>
