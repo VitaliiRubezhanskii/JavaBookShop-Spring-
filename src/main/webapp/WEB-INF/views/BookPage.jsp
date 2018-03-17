@@ -158,7 +158,9 @@ body {font-family: "Lato", sans-serif;}
         <div class="row" style="padding-top: 50px">
             <div class="col-lg-12">
                 <h1 class="page-header">Java Books </h1>
-
+                <a href= "<spring:url value="/welcome/admin/books.xls"/>" >
+                    <input type="submit" value="<spring:message text="Excel" />"  class="btn btn-primary btn-sm" />
+                </a>
             </div>
         </div>
 
