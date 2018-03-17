@@ -29,7 +29,7 @@ public class BookController {
        // model.setViewName("AdminPage");
         return "AdminPage";
 }
-    @RequestMapping(value = "{id}",method = RequestMethod.GET)
+  /*  @RequestMapping(value = "{id}",method = RequestMethod.GET)
     public String getExcel(@PathVariable("id") String id, Model model) {
         Book book=new Book();
        // model.addAttribute("newBook", book);
@@ -37,7 +37,7 @@ public class BookController {
        // model.addAttribute("orders",orderJdbcTemplate.getOrders());
         // model.setViewName("AdminPage");
         return "AdminPage";
-    }
+    }*/
 
 
     //<==========================================Add Book==========================================================>
