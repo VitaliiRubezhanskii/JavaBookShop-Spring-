@@ -8,6 +8,7 @@ import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -30,7 +31,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         return view;
     }
 
-    @Bean
+    @Bean("excelView")
     public ExcelView excelView(){
         return  new ExcelView();
     }
@@ -54,8 +55,9 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.jsp("/WEB-INF/views/", ".jsp");
+       // registry.jsp("/WEB-INF/views/", ".jsp");
         registry.enableContentNegotiation(excelView());
+        registry.beanName();
 
     }
 
@@ -92,6 +94,12 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         resolver.setViewClass(JstlView.class);
         return  resolver;
 
+    }
+
+    @Bean
+    public ViewResolver beanNameViewResolver() {
+        BeanNameViewResolver resolver = new BeanNameViewResolver();
+        return resolver;
     }
 
     @Bean
