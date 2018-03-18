@@ -43,7 +43,7 @@ public class ExcelView extends AbstractXlsView {
         List<String>headers= Arrays.asList("Book Id","ISBN","Title","Author","Category","Publisher","Language","InventoryStock","Sales");
 
 
-        for(int i=1;i<=8;i++) header.createCell(i).setCellValue(headers.get(i-1));
+        for(int i=0;i<=8;i++) header.createCell(i).setCellValue(headers.get(i));
 
 
 
