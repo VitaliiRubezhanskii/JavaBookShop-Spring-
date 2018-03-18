@@ -93,14 +93,14 @@ body, html {
 
            <div style="padding-top: 15px">
 
-                <a href="<c:url value='/welcome/admin/books.xls' />" class="btn btn-danger pull-left">
+                <a href="<c:url value='/welcome/admin/books.xls' />">
                     <span class="btn btn-info"></span>Download Stock in Excel
 
                 </a>
 
            </div>
 
-            <div class="well lead" style="padding-top: 15px">Add Book</div>
+            <div class="well lead" style="padding-top: 15px; text-align: center">Add Book</div>
 
 		<form>
 
