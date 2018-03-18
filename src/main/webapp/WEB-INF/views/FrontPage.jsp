@@ -119,6 +119,12 @@
                             </a>
                         </c:if>
 
+                        <c:if test="${pageContext.request.userPrincipal.name == 'admin'}">
+                            <a href= "<spring:url value="/welcome/admin/books"/>" >
+                                <input type="submit" value="<spring:message text="Administrator" />"  class="btn btn-default btn-outline btn-circle collapsed"  style="float:left"
+                                       aria-expanded="false"   />
+                            </a>
+                        </c:if>
 
 
                     </li>
