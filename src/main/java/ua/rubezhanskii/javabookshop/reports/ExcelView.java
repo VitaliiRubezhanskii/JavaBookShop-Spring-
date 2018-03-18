@@ -1,22 +1,24 @@
 package ua.rubezhanskii.javabookshop.reports;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.view.document.AbstractXlsxView;
+import org.springframework.web.servlet.view.document.AbstractXlsView;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
 import ua.rubezhanskii.javabookshop.model.Book;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @Component("excelView")
-public class ExcelView extends AbstractXlsxView {
+public class ExcelView extends AbstractXlsView {
     @Autowired
     private BookJdbcTemplate bookJdbcTemplate;
 
@@ -27,11 +29,11 @@ public class ExcelView extends AbstractXlsxView {
                                       HttpServletResponse response) throws Exception {
 
         // change the file name
-        response.setHeader("Content-Disposition", "attachment; filename=\"Books.xlsx\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Books.xls\"");
 
         @SuppressWarnings("unchecked")
         List<Book> books = (List<Book>) model.get("listBooks");
-
+        List<Cell>cells=new ArrayList<>();
         // create excel xls sheet
         Sheet sheet = workbook.createSheet("JavaBooks Stock");
 
@@ -40,8 +42,11 @@ public class ExcelView extends AbstractXlsxView {
 
         List<String>headers= Arrays.asList("Book Id","ISBN","Title","Author","Category","Publisher","Language","InventoryStock","Sales");
 
-        int i=0;
-        while (i<=8) header.createCell(i).setCellValue(headers.get(i++));
+
+        for(int i=1;i<=8;i++) cells.add(header.createCell(i));
+
+
+        cells.forEach((cell) -> cell.setCellValue(headers.get(0)));
       /*  header.createCell(1).setCellValue("ISBN");
         header.createCell(2).setCellValue("Title");
         header.createCell(3).setCellValue("Author");
