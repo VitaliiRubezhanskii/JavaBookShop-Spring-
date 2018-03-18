@@ -94,7 +94,7 @@ body, html {
            <div style="padding-top: 15px">
 
                 <a href="<c:url value='/welcome/admin/books.xls' />">
-                    <span class="btn btn-info"></span>Download Stock in Excel
+                    Download Stock in Excel
 
                 </a>
 
