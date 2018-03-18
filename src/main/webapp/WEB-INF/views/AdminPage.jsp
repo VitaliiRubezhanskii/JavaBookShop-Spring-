@@ -94,7 +94,7 @@ body, html {
            <div style="padding-top: 15px">
 
                 <a href="<c:url value='/welcome/admin/books.xls' />" class="btn btn-danger pull-left">
-                    <span class="glyphicon glyphicon-remove-sign"></span>Download Stock in Excel
+                    <span class="btn btn-info"></span>Download Stock in Excel
 
                 </a>
 
