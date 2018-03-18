@@ -81,7 +81,7 @@ body, html {
 <div class="buttons" style="padding-top: 70px">
     <button class="tablink" onclick="openPage('Books', this, '#00008B')" id="defaultOpen">Books</button>
     <button class="tablink" onclick="openPage('Sales', this, '#00008B')">Sales</button>
-</div>>
+</div>
     <div id="Books" class="tabcontent">
 
 
@@ -90,7 +90,7 @@ body, html {
 
         <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
         <form:form action="${addAction}" commandName="newBook">
-            <td><a href="<c:url value='/welcome/admin/books.xls' />" class="btn btn-success custom-width">Excel</a></td>
+            <td><a href="<c:url value='/welcome/admin/books.xls' />" class="btn btn-success custom-width">Download Stock in Excel</a></td>
             <div class="well lead">Add Book</div>
 
 		<form>
