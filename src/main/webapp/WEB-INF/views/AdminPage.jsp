@@ -90,9 +90,16 @@ body, html {
 
         <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
         <form:form action="${addAction}" commandName="newBook">
+
            <div style="padding-top: 15px">
-            <td><a href="<c:url value='/welcome/admin/books.xls' />" class="btn btn-success custom-width">Download Stock in Excel</a></td>
+
+                <a href="<c:url value='/welcome/admin/books.xls' />" class="btn btn-danger pull-left">
+                    <span class="glyphicon glyphicon-remove-sign"></span>Download Stock in Excel
+
+                </a>
+
            </div>
+
             <div class="well lead" style="padding-top: 15px">Add Book</div>
 
 		<form>
