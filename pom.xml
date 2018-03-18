@@ -482,6 +482,13 @@
             <artifactId>cglib</artifactId>
             <version>3.0</version>
         </dependency>
+        <!-- xls view -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.14</version>
+        </dependency>
+
         <!-- xlsx view -->
         <dependency>
             <groupId>org.apache.poi</groupId>

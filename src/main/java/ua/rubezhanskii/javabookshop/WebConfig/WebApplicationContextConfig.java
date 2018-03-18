@@ -8,7 +8,6 @@ import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -56,7 +55,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
        // registry.jsp("/WEB-INF/views/", ".jsp");
-        registry.enableContentNegotiation(excelView());
+       // registry.enableContentNegotiation(excelView());
         registry.beanName();
 
     }
@@ -70,7 +69,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer//.favorPathExtension(true)
+        configurer.favorPathExtension(true)
                 .useJaf(true)
 
                 .mediaType("html", MediaType.TEXT_HTML)
@@ -96,11 +95,11 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
 
     }
 
-    @Bean
+  /*  @Bean
     public ViewResolver beanNameViewResolver() {
         BeanNameViewResolver resolver = new BeanNameViewResolver();
         return resolver;
-    }
+    }*/
 
     @Bean
     public ViewResolver viewResolver(ContentNegotiationManager manager){

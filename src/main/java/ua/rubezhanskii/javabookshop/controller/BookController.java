@@ -3,14 +3,17 @@ package ua.rubezhanskii.javabookshop.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.OrderJdbcTemplate;
 import ua.rubezhanskii.javabookshop.model.Book;
 
 @Controller
-@RequestMapping("/welcome/admin/books")
+@RequestMapping("/welcome/admin")
 public class BookController {
 
 
@@ -20,7 +23,7 @@ public class BookController {
    private OrderJdbcTemplate orderJdbcTemplate;
 
 //<=================================================get View with Books================================================>
-    @RequestMapping(value = "",method = RequestMethod.GET)
+    @RequestMapping(value = "/books",method = RequestMethod.GET)
     public String getBookPage( Model model) {
         Book book=new Book();
         model.addAttribute("newBook", book);
@@ -29,15 +32,15 @@ public class BookController {
        // model.setViewName("AdminPage");
         return "AdminPage";
 }
-   @RequestMapping(value = "/excel",method = RequestMethod.GET)
+   /*@RequestMapping(value = "/books.xls",method = RequestMethod.GET)
     public String getExcel( Model model) {
         Book book=new Book();
-       // model.addAttribute("newBook", book);
+        model.addAttribute("newBook", book);
         model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
-       // model.addAttribute("orders",orderJdbcTemplate.getOrders());
+        model.addAttribute("orders",orderJdbcTemplate.getOrders());
         // model.setViewName("AdminPage");
-        return "excelView";
-    }
+        return "AdminPage";
+    }*/
 
 
     //<==========================================Add Book==========================================================>

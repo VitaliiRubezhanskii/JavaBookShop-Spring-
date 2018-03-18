@@ -73,6 +73,18 @@ public class RootApplicationContextConfig {
         return dataSource;
     }
 
+   /* @Bean
+    public DataSource dataSource(){
+        BasicDataSource dataSource=new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://localhost:3306/javazone");
+        dataSource.setPassword("qaz123");
+        dataSource.setUsername("root");
+        dataSource.setDriverClassName(com.mysql.jdbc.Driver.class.getName());
+        dataSource.setMaxTotal(5);
+        dataSource.setInitialSize(3);
+        return dataSource;
+    }*/
+
   /*  @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean factoryBean=new LocalContainerEntityManagerFactoryBean();
