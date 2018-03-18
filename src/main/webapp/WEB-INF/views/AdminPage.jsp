@@ -69,10 +69,18 @@ body, html {
 </head>
 <body>
 
-<button class="tablink" onclick="openPage('Books', this, '#00008B')" id="defaultOpen">Books</button>
-<button class="tablink" onclick="openPage('Sales', this, '#00008B')">Sales</button>
+<div class=" navbar navbar-default navbar-fixed-top" id="navbar-collapse-2">
 
-<div id="Books" class="tabcontent">
+    <ul class="nav navbar-nav navbar-left">
+        <li><a href="<c:url value='/welcome/home'/>">Home</a></li>
+        <li><a href="#">About</a></li>
+
+    </ul>
+
+    <button class="tablink" onclick="openPage('Books', this, '#00008B')" id="defaultOpen">Books</button>
+    <button class="tablink" onclick="openPage('Sales', this, '#00008B')">Sales</button>
+
+    <div id="Books" class="tabcontent">
 
 
     <div class="container">
@@ -240,7 +248,8 @@ body, html {
 
                 </div>
             </div>
-</div>
+         </div>
+    </div>
 </div>
 <script>
 function openPage(pageName,elmnt,color) {

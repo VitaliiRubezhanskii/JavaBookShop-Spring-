@@ -44,7 +44,7 @@ public class BookController {
 
 
     //<==========================================Add Book==========================================================>
-    @RequestMapping(value = "/addBook", method = RequestMethod.POST)
+    @RequestMapping(value = "/books/addBook", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@ModelAttribute("book")Book book) {
         if(bookJdbcTemplate.exists(book.getBookId())){
             bookJdbcTemplate.update(book);
@@ -54,21 +54,21 @@ public class BookController {
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
     //<==========================================Remove Category==========================================================>
-    @RequestMapping(value = "/remove/{bookId}")
+    @RequestMapping(value = "/books/remove/{bookId}")
     public ModelAndView removeBook(@PathVariable("bookId") Integer bookId){
         bookJdbcTemplate.delete(bookId);
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
     //<==========================================Edit Category==========================================================>
 
-    @RequestMapping("/edit/{bookId}")
+    @RequestMapping("/books/edit/{bookId}")
     public ModelAndView editBook(@PathVariable("bookId") Integer bookId){
         Book book=bookJdbcTemplate.getBookById(bookId);
         return new ModelAndView("AdminPage","newBook",book);
 
     }
 
-    @RequestMapping(value = "/edit/save",method = RequestMethod.POST)
+    @RequestMapping(value = "/books/edit/save",method = RequestMethod.POST)
     public ModelAndView editSave(@ModelAttribute("book") Book book){
         bookJdbcTemplate.update(book);
         return new ModelAndView("redirect:/welcome/admin/books/");

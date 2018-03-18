@@ -105,37 +105,45 @@
 
         <div class=" navbar navbar-default navbar-fixed-top" id="navbar-collapse-2">
             <ul class="nav navbar-nav navbar-left">
-                    <li>
+
                         <c:if test="${pageContext.request.userPrincipal.name == null}">
+                            <li>
                         <a href= "<spring:url value="/login"/>" >
                             <input type="submit" value="<spring:message text="Log In" />"  class="btn btn-default btn-outline btn-circle collapsed"  style="float:left"
                                    aria-expanded="false"   />
                         </a>
+                            </li>
                         </c:if>
                         <c:if test="${pageContext.request.userPrincipal.name != null}">
+                            <li>
                             <a href= "<spring:url value="/logout"/>" >
                                 <input type="submit" value="<spring:message text="Log Out" />"  class="btn btn-default btn-outline btn-circle collapsed"  style="float:left"
                                        aria-expanded="false"   />
                             </a>
+                            </li>
                         </c:if>
 
                         <c:if test="${pageContext.request.userPrincipal.name == 'admin'}">
+                            <li>
                             <a href= "<spring:url value="/welcome/admin/books"/>" >
                                 <input type="submit" value="<spring:message text="Administrator" />"  class="btn btn-default btn-outline btn-circle collapsed"  style="float:left"
                                        aria-expanded="false"   />
                             </a>
+                            </li>
                         </c:if>
 
 
-                    </li>
-                    <li>
+
+
                         <c:if test="${pageContext.request.userPrincipal.name == null}">
+                <li>
                         <a href= "<spring:url value="/register"/>" >
                             <input type="submit" value="<spring:message text="Register" />"  class="btn btn-default btn-outline btn-circle collapsed"  style="float:left"
                                    aria-expanded="false"   />
                         </a>
+                </li>
                         </c:if>
-                    </li>
+
             </ul>
 
 
