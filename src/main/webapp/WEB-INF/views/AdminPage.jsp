@@ -76,7 +76,7 @@ body, html {
         <li><a href="#">About</a></li>
 
     </ul>
-
+</div>
     <button class="tablink" onclick="openPage('Books', this, '#00008B')" id="defaultOpen">Books</button>
     <button class="tablink" onclick="openPage('Sales', this, '#00008B')">Sales</button>
 
@@ -250,7 +250,7 @@ body, html {
             </div>
          </div>
     </div>
-</div>
+
 <script>
 function openPage(pageName,elmnt,color) {
     var i, tabcontent, tablinks;
