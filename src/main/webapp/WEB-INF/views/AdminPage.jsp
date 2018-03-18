@@ -77,9 +77,11 @@ body, html {
 
     </ul>
 </div>
+
+<div class="buttons" style="padding-top: 70px">
     <button class="tablink" onclick="openPage('Books', this, '#00008B')" id="defaultOpen">Books</button>
     <button class="tablink" onclick="openPage('Sales', this, '#00008B')">Sales</button>
-
+</div>>
     <div id="Books" class="tabcontent">
 
 
@@ -188,7 +190,7 @@ body, html {
                     </table>
                 </div>
             </div>
-</div>
+        </div>
 </div>
 
 
