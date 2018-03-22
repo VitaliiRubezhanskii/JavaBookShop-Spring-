@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CategoryService;
 import ua.rubezhanskii.javabookshop.datamanagement.rowmappers.CategoryRowMapper;
+import ua.rubezhanskii.javabookshop.herokuspecific.HerokuHelper;
 import ua.rubezhanskii.javabookshop.model.Book;
 import ua.rubezhanskii.javabookshop.model.Category;
 
@@ -46,6 +47,7 @@ public class CategoryJdbcTemplate implements CategoryService {
 
     @Override
     public Integer save(Category category) {
+        try{
         Number number=0;
         if (category.getCategoryId().equals(getCategoryById(category.getCategoryId()).getCategoryId())) {
             update(category);
@@ -57,6 +59,10 @@ public class CategoryJdbcTemplate implements CategoryService {
             }
             throw new RuntimeException("Cannot retrieve primary key");
         } return number.intValue();
+    }catch (Exception ex){
+            HerokuHelper.save(category);
+        }
+        return 1;
     }
 
     @Override
@@ -73,15 +79,24 @@ public class CategoryJdbcTemplate implements CategoryService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Category getCategoryById(Integer categoryId) {
         final String CATEGORIES_BY_ID="SELECT * FROM category WHERE categoryId=?";
         return (Category) jdbcTemplate.queryForObject(CATEGORIES_BY_ID, new Object[]{categoryId}, new CategoryRowMapper());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Category getCategoryOfBook(Book book) {
         final String CATEGORY_OF_BOOK="SELECT category FROM book INNER  JOIN category ON  book.categoryId=category.categoryId WHERE ISBN=?";
         return (Category) jdbcTemplate.queryForObject(CATEGORY_OF_BOOK, new Object[]{book.getISBN()}, new CategoryRowMapper());
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Category getCategoryByName(String name){
+        final String CATEGORY_BY_NAME="SELECT * FROM category WHERE category.category=?";
+        return (Category)jdbcTemplate.queryForObject(CATEGORY_BY_NAME,new Object[]{name},new CategoryRowMapper());
     }
 
     @Override

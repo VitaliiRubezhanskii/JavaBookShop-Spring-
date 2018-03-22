@@ -15,5 +15,6 @@ public interface CategoryService {
     Category getCategoryById(Integer categoryId);
     Category getCategoryOfBook(Book book);
     boolean exists(Integer categoryId);
+    Category getCategoryByName(String name);
 
 }

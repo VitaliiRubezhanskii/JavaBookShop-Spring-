@@ -7,4 +7,5 @@ public interface AuthorService {
     void update(Author author);
     Integer save(Author author);
     Author getAuthorOfBook(Integer authorId);
+    Author getAuthorByName(String name);
 }

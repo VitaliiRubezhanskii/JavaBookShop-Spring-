@@ -85,7 +85,7 @@
 
                         <tr>
                             <td> <img  class="card-block text-nowrap" src="<c:url value="/resources/images/${item.book.coverImage}.jpg"></c:url>" alt="" width="90" height="135" ></td>
-                            <td>${item.customer.lastName}</td>
+                            <td>${item.customer.firstName}</td>
                             <td>${item.customer.lastName}</td>
                             <td>${item.customer.email}</td>
                             <td>${item.book.bookTitle}</td>

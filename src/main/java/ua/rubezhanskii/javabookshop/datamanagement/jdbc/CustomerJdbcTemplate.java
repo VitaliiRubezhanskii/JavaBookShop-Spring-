@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CustomerService;
+import ua.rubezhanskii.javabookshop.herokuspecific.HerokuHelper;
 import ua.rubezhanskii.javabookshop.model.Customer;
 
 import javax.annotation.PostConstruct;
@@ -50,13 +51,18 @@ public class CustomerJdbcTemplate implements CustomerService {
 
     @Override
     public Integer save(Customer customer) {
-        SqlParameterSource parameterSource=new BeanPropertySqlParameterSource(customer);
-        Number number=jdbcInsert.executeAndReturnKey(parameterSource);
-        if (number!=null){
-            return number.intValue();
+        try {
+            SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(customer);
+            Number number = jdbcInsert.executeAndReturnKey(parameterSource);
+            if (number != null) {
+                return number.intValue();
+            }
+            throw new RuntimeException("Cannot retrieve primary key");
+        }catch (Exception ex){
+            HerokuHelper.save(customer);
         }
-        throw new RuntimeException("Cannot retrieve primary key");
-      }
+        return 1;
+    }
 
     @Override
     public void delete(Integer customerId) {

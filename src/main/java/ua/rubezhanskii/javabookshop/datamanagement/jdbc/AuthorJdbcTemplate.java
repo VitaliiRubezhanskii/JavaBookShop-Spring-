@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.AuthorService;
+import ua.rubezhanskii.javabookshop.herokuspecific.HerokuHelper;
 import ua.rubezhanskii.javabookshop.model.Author;
 
 import javax.annotation.PostConstruct;
@@ -39,12 +40,13 @@ public class AuthorJdbcTemplate implements AuthorService {
 
     @Override
     public void update(Author author) {
-        jdbcTemplate.update("UPDATE author set author1=?, author2=?,author3=?,author4=? WHERE authorId=?",
-                author.getAuthor1(),author.getAuthor2(),author.getAuthor3(),author.getAuthor4(),author.getAuthorId());
+        final String UPDATE_AUTHOR="UPDATE author set author1=?, author2=?,author3=?,author4=? WHERE authorId=?";
+        jdbcTemplate.update(UPDATE_AUTHOR,author.getAuthor1(),author.getAuthor2(),author.getAuthor3(),author.getAuthor4(),author.getAuthorId());
     }
 
     @Override
     public Integer save(Author author) {
+        try{
     if (author.getAuthorId().equals(getAuthorOfBook(author.getAuthorId()).getAuthorId())){
     update(author);
 
@@ -57,26 +59,31 @@ public class AuthorJdbcTemplate implements AuthorService {
          }
     throw new RuntimeException("Cannot retrieve primary key");
      }
-        return 1;
+
         /*
         KeyHolder keyHolder=new GeneratedKeyHolder();
         jdbcTemplate.update("INSERT INTO author(author1, author2, author3, author4) VALUES (?,?,?,?)",
                 author.getAuthor1(),author.getAuthor2(),author.getAuthor3(),author.getAuthor4(),keyHolder);
         Number number=keyHolder.getKey();
         return  number.intValue();*/
+    }catch (Exception ex){
+            HerokuHelper.save(author);
+        }
+        return 1;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Author getAuthorOfBook(Integer authorId){
-        return (Author)jdbcTemplate.queryForObject("Select * from author WHERE  authorId=?", new Object[]{authorId}, (ResultSet rs, int rowNum) ->{
-            Author author=new Author();
-            author.setAuthorId(rs.getInt("authorId"));
-            author.setAuthor1(rs.getString("author1"));
-            author.setAuthor2(rs.getString("author2"));
-            author.setAuthor3(rs.getString("author3"));
-            author.setAuthor4(rs.getString("author4"));
-            return author;
-        });
+        final String AUTHOR_OF_BOOK="Select * from author WHERE  authorId=?";
+        return (Author)jdbcTemplate.queryForObject(AUTHOR_OF_BOOK, new Object[]{authorId}, new AuthorRowMapper());
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Author getAuthorByName(String name){
+        final String AUTHOR_OF_BOOK="Select * from author WHERE  author1=?";
+        return (Author)jdbcTemplate.queryForObject(AUTHOR_OF_BOOK, new Object[]{name}, new AuthorRowMapper());
     }
 
 
