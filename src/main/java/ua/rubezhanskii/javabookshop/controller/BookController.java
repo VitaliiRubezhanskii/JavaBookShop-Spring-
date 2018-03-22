@@ -65,7 +65,7 @@ public class BookController {
     public ModelAndView saveOrUpdate(@ModelAttribute("newBook")Book book) {
        // bookService.save(book);
         HerokuHelper.save(book);
-        return new ModelAndView("redirect:/welcome/admin/books/");
+        return new ModelAndView("redirect:/welcome/admin/books");
     }
     //<==========================================Remove Category==========================================================>
     @RequestMapping(value = "/books/remove/{bookId}")

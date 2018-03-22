@@ -110,11 +110,7 @@ body, html {
             <div class="well lead" style="padding-top: 15px; text-align: center">Add Book</div>
 
 		<form>
-            <div class="form-group">
-                <label class="col-md-3 control-lable" for="ISBN"><span class="lead" >Book ID</span></label>
-                <form:input type="text" path="bookId" class="form-control input-sm" />
-                <form:hidden path="bookId" />
-            </div>
+
 
 		 <div class="form-group">
                 <label class="col-md-3 control-lable" for="ISBN"><span class="lead" >ISBN</span></label>
