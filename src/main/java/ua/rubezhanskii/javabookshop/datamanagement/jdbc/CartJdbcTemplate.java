@@ -5,8 +5,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import ua.rubezhanskii.javabookshop.datamanagement.repository.BookService;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CartService;
-import ua.rubezhanskii.javabookshop.dto.CartDTO;
+import ua.rubezhanskii.javabookshop.datamanagement.repository.CustomerService;
 import ua.rubezhanskii.javabookshop.dto.CartItemDto;
 import ua.rubezhanskii.javabookshop.model.Book;
 import ua.rubezhanskii.javabookshop.model.Cart;
@@ -15,115 +17,123 @@ import ua.rubezhanskii.javabookshop.model.Customer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
+@Service
 public class CartJdbcTemplate implements CartService{
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    private BookService bookService;
+
+    private CustomerService customerService;
+
     @Autowired
-    private BookJdbcTemplate bookJdbcTemplate;
-    @Autowired
-    private CustomerJdbcTemplate customerJdbcTemplate;
+    public CartJdbcTemplate(JdbcTemplate jdbcTemplate, BookService bookService, CustomerService customerService) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.bookService = bookService;
+        this.customerService = customerService;
+    }
 
     @Override
     public void update(Book book) {
         CartItemDto cartItem=new CartItemDto(book,null);
-        jdbcTemplate.update("UPDATE cart SET bookQuantity=?, creationTime=now(),globalId=?, machineName=? WHERE bookId=?", cartItem.getBook().getBookId(),
-                cartItem.getBook().getBookQuantity(),new Cart().generateGUID(),System.getProperty("user.name"));
-            }
+        final String UPDATE_CART="UPDATE cart SET bookQuantity=?, creationTime=now(),globalId=?, login=? WHERE bookId=?";
+        jdbcTemplate.update(UPDATE_CART, cartItem.getBook().getBookId(),
+                cartItem.getBook().getBookQuantity(),new Cart().generateGUID(),getLoggedUserName());
+    }
 
     @Override
     public void save(Book book) {
         CartItemDto cartItem=new CartItemDto(book,null);
-        jdbcTemplate.update("INSERT INTO cart(bookId, bookQuantity, globalId,creationTime,machineName) VALUES (?,?,?,NOW(),?)",
-                cartItem.getBook().getBookId(),cartItem.getBook().getBookQuantity(),new Cart().generateGUID(),System.getProperty("user.name"));
+        final String INSRT_INTO_CART="INSERT INTO cart(bookId, bookQuantity, globalId,creationTime,login) VALUES (?,?,?,NOW(),?)";
+        jdbcTemplate.update(INSRT_INTO_CART,cartItem.getBook().getBookId(),cartItem.getBook().getBookQuantity(),new Cart().generateGUID(),getLoggedUserName());
     }
-
-
 
     @Override
     public void delete(Integer bookId) {
-        jdbcTemplate.update("DELETE FROM cart WHERE bookId=?", bookId);
+        final String DELETE_FROM_CART="DELETE FROM cart WHERE bookId=?";
+        jdbcTemplate.update(DELETE_FROM_CART, bookId);
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("Delete FROM cart WHERE bookId>0");
+        final String DELETE_ALL_FROM_CART="Delete FROM cart WHERE bookId>0";
+        jdbcTemplate.update(DELETE_ALL_FROM_CART);
     }
 
-    public void deleteByCustomer(String machineName){
-      jdbcTemplate.update("DELETE FROM cart WHERE machineName=?",machineName);
-  }
-
+    public void deleteByCustomer(String login){
+        final String DELETE_BY_CUSTOMER="DELETE FROM cart WHERE login=?";
+        jdbcTemplate.update(DELETE_BY_CUSTOMER,login);
+    }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<CartItemDto> getCartItems() {
-        return jdbcTemplate.query("SELECT * FROM cart", new RowMapper<CartItemDto>() {
-            @Override
-            public CartItemDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                CartItemDto cartItemDto=new CartItemDto();
-                cartItemDto.setBook(bookJdbcTemplate.getBookById(rs.getInt("bookId")));
-                cartItemDto.setMachineName((rs.getString("machineName")));
-                return  cartItemDto;
-            }
-        });
+        final String SELECT_FROM_CART="SELECT * FROM cart";
+        return jdbcTemplate.query(SELECT_FROM_CART, new CartItemRowMapper());
     }
 
-    public List<CartItemDto>getCartItemsByMachineName(String machineName){
-        return jdbcTemplate.query("SELECT * FROM cart WHERE machineName=?",new Object[]{machineName},new CartItemRowMapper());
+    @SuppressWarnings("unchecked")
+    public List<CartItemDto>getCartItemsByLogin(String login){
+        final String CARTITEMS_BY_LOGIN="SELECT * FROM cart WHERE login=?";
+        return jdbcTemplate.query(CARTITEMS_BY_LOGIN,new Object[]{login},new CartItemRowMapper());
     }
 
-   public Integer countItems(String machineName){
-       return getCartItemsByMachineName(machineName).size();
+   public Integer countItems(String login){
+       return getCartItemsByLogin(login).size();
     }
 
+  /*  @SuppressWarnings("unchecked")
     public CartDTO getCartDTO(){
         CartDTO dto=new CartDTO();
         List<CartItemDto> cartItemDtos= jdbcTemplate.query("SELECT * FROM cart",new CartItemRowMapper());
         dto.setCartItems(cartItemDtos);
         return dto;
-    }
+    }*/
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean exists(Integer bookId) {
-       List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM cart WHERE bookId=?",new Object[]{bookId},
-               new CartRowMapper());
-        return books.size()<1 ? false : true;
+        List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM cart WHERE bookId=?",new Object[]{bookId},
+                new CartRowMapper());
+        return books.size()>=1;
     }
 
     @Override
     public void saveOrder(Customer customer){
-        List<CartItemDto> cartItems= getCartItemsByMachineName(System.getProperty("user.name"));
-
+        List<CartItemDto> cartItems= getCartItemsByLogin(getLoggedUserName());
+        final String INSERT_ORDER="INSERT INTO ordertable(bookId,customerId, orderDate, globalId) VALUES (?,?,NOW(),?)";
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal()!=null){
-            Object username=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String login=((UserDetails)username).getUsername();
-          Customer customer1=customerJdbcTemplate.getCustomerByLogin(login);
-            cartItems.forEach(item -> {
-                jdbcTemplate.update("INSERT INTO ordertable(bookId,customerId, orderDate, globalId) VALUES (?,?,NOW(),?)"
-                        , item.getBook().getBookId(), customer1.getCustomerId(), new Cart().generateGUID());
-            });
-
+             String login=getLoggedUserName();
+             Customer customer1=customerService.getCustomerByLogin(login);
+             cartItems.forEach(item -> jdbcTemplate.update(INSERT_ORDER, item.getBook().getBookId(), customer1.getCustomerId(), new Cart().generateGUID()));
         }
         else {
-            Integer customerId = customerJdbcTemplate.save(customer);
-            cartItems.forEach(item -> {
-                jdbcTemplate.update("INSERT INTO ordertable(bookId,customerId, orderDate, globalId) VALUES (?,?,NOW(),?)"
-                        , item.getBook().getBookId(), customerId, new Cart().generateGUID());
-            });
-
+            Integer customerId = customerService.save(customer);
+            cartItems.forEach(item -> jdbcTemplate.update(INSERT_ORDER, item.getBook().getBookId(), customerId, new Cart().generateGUID()));
         }
+        deleteByCustomer(getLoggedUserName());
+    }
 
-        deleteByCustomer(System.getProperty("user.name"));
-
+    public String getLoggedUserName(){
+        try {
+            Object username = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String login;
+            if (username == null) {
+                 login = "guest";
+            } else {
+                 login = ((UserDetails) username).getUsername();
+            }
+            return login;
+        }catch (ClassCastException ex){
+            return "guest";
+        }
     }
 
     private class CartRowMapper implements RowMapper {
-
         @Override
         public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
             Cart cart = new Cart();
-            cart.setBook(bookJdbcTemplate.getBookById(rs.getInt("bookId")));
+            cart.setBook(bookService.getBookById(rs.getInt("bookId")));
             cart.setBookQuantity(rs.getInt("bookQuantity"));
             cart.setGlobalId(rs.getString("globalId"));
             cart.setCreationTime(rs.getString("creationTime"));
@@ -136,9 +146,10 @@ public class CartJdbcTemplate implements CartService{
         @Override
         public CartItemDto mapRow(ResultSet rs, int rowNum) throws SQLException {
             CartItemDto cartItemDto=new CartItemDto();
-            cartItemDto.setBook(bookJdbcTemplate.getBookById(rs.getInt("bookId")));
-            cartItemDto.setMachineName(rs.getString("machineName"));
+            cartItemDto.setBook(bookService.getBookById(rs.getInt("bookId")));
+            cartItemDto.setMachineName(rs.getString("login"));
             return cartItemDto;
         }
     }
+
 }

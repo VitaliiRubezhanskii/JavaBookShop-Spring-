@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Service;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CategoryService;
 import ua.rubezhanskii.javabookshop.datamanagement.rowmappers.CategoryRowMapper;
 import ua.rubezhanskii.javabookshop.model.Book;
@@ -14,65 +15,80 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.List;
 
+@Service
 public class CategoryJdbcTemplate implements CategoryService {
 
-    @Autowired
+
     private JdbcTemplate jdbcTemplate;
-    @Autowired
+
     private DataSource dataSource;
+
     private SimpleJdbcInsert jdbcInsert;
+
+    @Autowired
+    public CategoryJdbcTemplate(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
+    }
 
     @PostConstruct
     private void postConstruct() {
-
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("category")
                 .usingGeneratedKeyColumns("categoryId");
     }
 
     @Override
     public void update(Category category) {
-        jdbcTemplate.update("UPDATE category SET category=? WHERE categoryId=?",category.getCategory(),getCategoryById(category.getCategoryId()).getCategoryId());
+        final String UPDATE_QUERY="UPDATE category SET category=? WHERE categoryId=?";
+        jdbcTemplate.update(UPDATE_QUERY,category.getCategory(),
+                getCategoryById(category.getCategoryId()).getCategoryId());
     }
 
     @Override
     public Integer save(Category category) {
-        SqlParameterSource parameterSource=new BeanPropertySqlParameterSource(category);
-        Number number=jdbcInsert.executeAndReturnKey(parameterSource);
-        if (number!=null){
-            return number.intValue();
-        }
-        throw new RuntimeException("Cannot retrieve primary key");
-    /*    KeyHolder keyHolder=new GeneratedKeyHolder();
-        jdbcTemplate.update("INSERT INTO category(category) VALUES (?)", category.getCategory(),keyHolder);
-        return keyHolder.getKey().intValue();*/
+        Number number=0;
+        if (category.getCategoryId().equals(getCategoryById(category.getCategoryId()).getCategoryId())) {
+            update(category);
+        }else {
+            SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(category);
+            number = jdbcInsert.executeAndReturnKey(parameterSource);
+            if (number != null) {
+                return number.intValue();
+            }
+            throw new RuntimeException("Cannot retrieve primary key");
+        } return number.intValue();
     }
 
     @Override
     public void delete(Integer categoryId) {
-        jdbcTemplate.update("DELETE FROM category WHERE categoryId=?", categoryId);
+        final String DELETE_QUERY="DELETE FROM category WHERE categoryId=?";
+        jdbcTemplate.update(DELETE_QUERY, categoryId);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Category> getCategories() {
-        return jdbcTemplate.query("SELECT * FROM category", new CategoryRowMapper());
+        final String RETRIEVE_CATEGORIES="SELECT * FROM category";
+        return jdbcTemplate.query(RETRIEVE_CATEGORIES, new CategoryRowMapper());
     }
 
     @Override
     public Category getCategoryById(Integer categoryId) {
-        return (Category) jdbcTemplate.queryForObject("SELECT * FROM category WHERE categoryId=?", new Object[]{categoryId}, new CategoryRowMapper());
+        final String CATEGORIES_BY_ID="SELECT * FROM category WHERE categoryId=?";
+        return (Category) jdbcTemplate.queryForObject(CATEGORIES_BY_ID, new Object[]{categoryId}, new CategoryRowMapper());
     }
+
     @Override
     public Category getCategoryOfBook(Book book) {
-        return (Category) jdbcTemplate.queryForObject("SELECT category FROM book INNER  JOIN category" +
-                " ON  book.categoryId=category.categoryId WHERE ISBN=?", new Object[]{book.getISBN()}, new CategoryRowMapper());
+        final String CATEGORY_OF_BOOK="SELECT category FROM book INNER  JOIN category ON  book.categoryId=category.categoryId WHERE ISBN=?";
+        return (Category) jdbcTemplate.queryForObject(CATEGORY_OF_BOOK, new Object[]{book.getISBN()}, new CategoryRowMapper());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean exists(Integer categoryId) {
-        boolean b=false;
-         List<Category>categories=(List<Category>)jdbcTemplate.query("SELECT * FROM category WHERE categoryId=?",new Object[]{categoryId},
-                 new CategoryRowMapper());
-         return categories.size()<1 ? false : true;
-
+        final String COUNT_QUERY_CATEGORIES="SELECT count(*) FROM category WHERE categoryId=?";
+        return (Integer)jdbcTemplate.queryForObject(COUNT_QUERY_CATEGORIES,new Object[]{categoryId},
+                       new CategoryRowMapper())!=0;
     }
 }

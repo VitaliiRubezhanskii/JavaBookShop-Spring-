@@ -10,14 +10,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import ua.rubezhanskii.javabookshop.datamanagement.jdbc.*;
 
 import javax.sql.DataSource;
 
 
 @Configuration
 @ComponentScan("ua.rubezhanskii.javabookshop")
-
 public class RootApplicationContextConfig {
 
     @Autowired
@@ -37,27 +35,11 @@ public class RootApplicationContextConfig {
     public SimpleJdbcInsert simpleJdbcInsert(){
         return new SimpleJdbcInsert(dataSource());
     }
-    @Bean
-    public CategoryJdbcTemplate categoryJdbcTemplate(){
-       return new CategoryJdbcTemplate();
-    }
 
+   /* @Bean
+    public ExcelImportService excelImportService(){return new ExcelImportServiceImpl();}
+*/
 
-    @Bean
-    public CustomerJdbcTemplate customerJdbcTemplate(){return new CustomerJdbcTemplate();}
-
-    @Bean
-    public CartJdbcTemplate cartJdbcTemplate(){
-        return new CartJdbcTemplate();
-    }
-
-    @Bean
-    public OrderJdbcTemplate orderJdbcTemplate(){return new OrderJdbcTemplate();}
-
-    @Bean
-    public BookJdbcTemplate bookJdbcTemplate(){
-        return new BookJdbcTemplate();
-    }
 
 
 
@@ -73,7 +55,7 @@ public class RootApplicationContextConfig {
         return dataSource;
     }
 
-   /* @Bean
+ /*   @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/javazone");
@@ -83,8 +65,8 @@ public class RootApplicationContextConfig {
         dataSource.setMaxTotal(5);
         dataSource.setInitialSize(3);
         return dataSource;
-    }*/
-
+    }
+*/
   /*  @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean factoryBean=new LocalContainerEntityManagerFactoryBean();

@@ -1,9 +1,10 @@
 package ua.rubezhanskii.javabookshop.datamanagement.repository;
 
+import org.springframework.stereotype.Repository;
 import ua.rubezhanskii.javabookshop.model.Customer;
 
 import java.util.List;
-
+@Repository
 public interface CustomerService {
 
     void update(Customer customer);

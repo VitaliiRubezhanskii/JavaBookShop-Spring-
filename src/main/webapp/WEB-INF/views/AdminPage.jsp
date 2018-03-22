@@ -86,6 +86,13 @@ body, html {
 
 
     <div class="container">
+        <form:form modelAttribute="inputFile" method="post" >
+            <form:label for="file" path="file">Please select Excel (.xls) file to upload</form:label><br/>
+            <form:input path="file" type="file"/><br/>
+            <input type="submit" />
+        </form:form>
+
+        <p>${inputFile.multipartFile.name}</p>
 
 
         <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>
@@ -103,6 +110,11 @@ body, html {
             <div class="well lead" style="padding-top: 15px; text-align: center">Add Book</div>
 
 		<form>
+            <div class="form-group">
+                <label class="col-md-3 control-lable" for="ISBN"><span class="lead" >Book ID</span></label>
+                <form:input type="text" path="bookId" class="form-control input-sm" />
+                <form:hidden path="bookId" />
+            </div>
 
 		 <div class="form-group">
                 <label class="col-md-3 control-lable" for="ISBN"><span class="lead" >ISBN</span></label>
@@ -191,8 +203,8 @@ body, html {
                                 <td>${book.language}</td>
                                 <td>${book.details}</td>
 
-                                <td><a href="" class="btn btn-success custom-width">edit</a></td>
-                                <td><a href="" class="btn btn-danger custom-width">delete</a></td>
+                                <td><a href="/welcome/admin/books/edit/${book.bookId}" class="btn btn-success custom-width">edit</a></td>
+                                <td><a href="/welcome/admin/books/remove/${book.bookId}" class="btn btn-danger custom-width">delete</a></td>
                             </tr>
                         </c:forEach>
                         </tbody>

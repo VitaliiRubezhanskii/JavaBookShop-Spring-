@@ -7,35 +7,41 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import ua.rubezhanskii.javabookshop.datamanagement.jdbc.CartJdbcTemplate;
-import ua.rubezhanskii.javabookshop.datamanagement.jdbc.CustomerJdbcTemplate;
-import ua.rubezhanskii.javabookshop.datamanagement.jdbc.OrderJdbcTemplate;
+import ua.rubezhanskii.javabookshop.datamanagement.repository.CartService;
 import ua.rubezhanskii.javabookshop.model.Customer;
 
 @Controller
 @RequestMapping("/welcome/rest")
 public class CustomerController {
 
+
     @Autowired
-    private CustomerJdbcTemplate customerJdbcTemplate;
-    @Autowired
-    private CartJdbcTemplate cartJdbcTemplate;
-    @Autowired
-    private OrderJdbcTemplate orderJdbcTemplate;
+    private CartService cartService;
 
     //<======================================getCheckout page==========================================================>
     @RequestMapping(value = "/checkout", method = RequestMethod.GET)
     public ModelAndView getCheckoutPage(ModelAndView model) {
         model.addObject("customer",new Customer());
-        model.addObject("countCartItems",cartJdbcTemplate.countItems(System.getProperty("user.name")));
+        model.addObject("countCartItems",cartService.countItems(cartService.getLoggedUserName()));
         model.setViewName("Checkout");
         return model;
     }
-@RequestMapping(value = "/saveCustomer",method = RequestMethod.POST)
-    public ModelAndView saveCustomer(@ModelAttribute("customer") Customer customer){
-    //    customerJdbcTemplate.save(customer);
-    cartJdbcTemplate.saveOrder(customer);
-        return new ModelAndView("redirect:/welcome/rest/checkout");
+
+    @RequestMapping(value = "/saveCustomer",method = RequestMethod.POST)
+    public ModelAndView saveCustomer(@ModelAttribute("customer") Customer customer, ModelAndView modelAndView){
+        cartService.saveOrder(customer);
+        modelAndView.setViewName("redirect:/welcome/rest/success");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/success",method = RequestMethod.GET)
+    public String getSuccessPage(){
+        return "SuccesOrdered";
+
+
+
 }
+
+
 
 }

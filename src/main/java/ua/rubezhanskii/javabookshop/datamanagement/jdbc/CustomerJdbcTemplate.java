@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CustomerService;
 import ua.rubezhanskii.javabookshop.model.Customer;
 
@@ -16,75 +17,80 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Service
 public class CustomerJdbcTemplate implements CustomerService {
 
 
-    @Autowired
+
     private JdbcTemplate jdbcTemplate;
-    @Autowired
+
     private DataSource dataSource;
+
     private SimpleJdbcInsert jdbcInsert;
+
+    @Autowired
+    public CustomerJdbcTemplate(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
+    }
 
     @PostConstruct
     private void postConstruct() {
-
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("customer")
                 .usingGeneratedKeyColumns("customerId");
-
     }
 
     @Override
     public void update(Customer customer) {
-        jdbcTemplate.update("UPDATE customer SET firstName=?, lastName=?, address=?, city=?,zip=?, country=?, phoneHome=?, phoneMobile=?, email=?, login=? WHERE" +
-                " customerId=?",customer.getFirstName(),customer.getLastName(),customer.getAddress(),customer.getCity(),customer.getZip(),customer.getCountry(),
+        final String UPDATE_CUSTOMER="UPDATE customer SET firstName=?, lastName=?, address=?, city=?,zip=?, country=?, phoneHome=?, phoneMobile=?, email=?, login=? WHERE customerId=?";
+        jdbcTemplate.update(UPDATE_CUSTOMER,customer.getFirstName(),customer.getLastName(),customer.getAddress(),customer.getCity(),customer.getZip(),customer.getCountry(),
                 customer.getPhoneHome(),SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString(),
                 customer.getPhoneMobile(),customer.getEmail(),customer.getCustomerId());
     }
 
     @Override
     public Integer save(Customer customer) {
-
-
         SqlParameterSource parameterSource=new BeanPropertySqlParameterSource(customer);
         Number number=jdbcInsert.executeAndReturnKey(parameterSource);
         if (number!=null){
             return number.intValue();
         }
         throw new RuntimeException("Cannot retrieve primary key");
-      /*  jdbcTemplate.update("INSERT INTO customer(firstName, lastName, address, city, zip, country, phoneHome, phoneMobile, email,login) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?)", customer.getFirstName(),customer.getLastName(),customer.getAddress(),customer.getCity(),
-                customer.getZip(),customer.getCountry(),customer.getPhoneHome(),customer.getPhoneMobile(),customer.getEmail(), SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-   */ }
+      }
 
     @Override
     public void delete(Integer customerId) {
-        jdbcTemplate.update("DELETE FROM customer WHERE customerId=?", customerId);
+        final String DELETE_FROM_CUSTOMER="DELETE FROM customer WHERE customerId=?";
+        jdbcTemplate.update(DELETE_FROM_CUSTOMER, customerId);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Customer> getCustomers() {
-        return jdbcTemplate.query("SELECT * FROM customer", new CustomerRowMapper());
+        final String SELECT_CUSTOMERS="SELECT * FROM customer";
+        return jdbcTemplate.query(SELECT_CUSTOMERS, new CustomerRowMapper());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Customer getCustomerById(Integer customerId) {
-        return (Customer) jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customerId=?", new Object[]{customerId}, new CustomerRowMapper());
+        final String CUSTOMER_BY_ID="SELECT * FROM customer WHERE customerId=?";
+        return (Customer) jdbcTemplate.queryForObject(CUSTOMER_BY_ID, new Object[]{customerId}, new CustomerRowMapper());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Customer getCustomerByLogin(String login) {
-         return (Customer) jdbcTemplate.queryForObject("SELECT * FROM customer WHERE login=?",
-                new Object[]{login}, new CustomerRowMapper());
+        final String CUSTOMER_BY_LOGIN="SELECT * FROM customer WHERE login=?";
+        return (Customer) jdbcTemplate.queryForObject(CUSTOMER_BY_LOGIN,new Object[]{login}, new CustomerRowMapper());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean exists(Integer customerId) {
-        boolean b=false;
-        List<Customer> customers=(List<Customer>)jdbcTemplate.query("SELECT * FROM customer WHERE customerId=?",new Object[]{customerId},
-                new CustomerRowMapper());
-        return customers.size()<1 ? false : true;
+      final String COUNT_CUSTOMERS="SELECT * FROM customer WHERE customerId=?";
+        return (Integer)jdbcTemplate.queryForObject(COUNT_CUSTOMERS,new Object[]{customerId},new CustomerRowMapper())!=0;
     }
-
 
     private class CustomerRowMapper implements RowMapper{
         @Override
@@ -101,6 +107,6 @@ public class CustomerJdbcTemplate implements CustomerService {
             customer.setPhoneMobile(rs.getString("phoneMobile"));
             customer.setEmail(rs.getString("email"));
             return customer;
+          }
+        }
     }
-    }
-}

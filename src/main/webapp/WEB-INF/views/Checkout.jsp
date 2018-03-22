@@ -80,10 +80,15 @@
         <c:url var="addAction"  value="/welcome/rest/saveCustomer" ></c:url>
 
 
-        <div class="container" style="padding-bottom: 80px" >
+
+
+
+        <div id="formgroup"  class="container" style="padding-bottom: 80px;display:block" >
             <div class="well lead">Checkout</div>
 
-            <div class="form-group">
+
+
+            <div class="form-group" >
                 <form:form action="${addAction}" commandName="customer">
 
                     <div class="row">
@@ -100,7 +105,7 @@
                     </div>
 
                     <!-- =========================================First Name================================================-->
-                    <div class="row">
+                    <div  class="row">
                         <div class="form-group col-md-7">
                             <label class="col-md-3 control-lable" for="firstName"><span class="lead" >First Name</span></label>
                             <div class="col-md-7">
@@ -189,15 +194,13 @@
 
 
                             <div class="column">
-                                <c:if test="${!empty newBook.bookTitle}">
-                                    <input type="submit"   value="<spring:message text="Edit Category"/>"  class="btn btn-primary btn-sm"/>
-                                </c:if>
-                                <c:if test="${empty newBook.bookTitle}">
-                                    <input type="submit" value="<spring:message text="Save" />"  class="btn btn-primary btn-sm" />
-                                </c:if>
+
+                                    <input type="submit" onclick="show()" value="<spring:message text="Save" />"  class="btn btn-primary btn-sm" />
+
                             </div>
                         </div>
                     </div>
+
                 </form:form>
 
             </div>
@@ -211,7 +214,24 @@
             </div>
         </div>
 
+<script>
 
+    function show() {
+
+        if(document.getElementById('success').style.display=='none') {
+            document.getElementById('success').style.display='block';
+        }
+        hide();
+        return false;
+    }
+    function  hide() {
+        if(document.getElementById('formgroup').style.display=='block') {
+            document.getElementById('formgroup').style.display='none';
+        }
+        return false;
+
+    }
+</script>
 
 </body>
 </html>

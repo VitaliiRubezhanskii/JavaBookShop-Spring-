@@ -18,18 +18,23 @@ import java.sql.SQLException;
 @Repository
 public class AuthorJdbcTemplate implements AuthorService {
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-    @Autowired
+
     private DataSource dataSource;
+
     private SimpleJdbcInsert jdbcInsert;
+
+    @Autowired
+    public AuthorJdbcTemplate(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
+    }
 
     @PostConstruct
     private void postConstruct() {
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("author")
                 .usingGeneratedKeyColumns("authorId");
-
     }
 
     @Override
@@ -40,14 +45,20 @@ public class AuthorJdbcTemplate implements AuthorService {
 
     @Override
     public Integer save(Author author) {
+    if (author.getAuthorId().equals(getAuthorOfBook(author.getAuthorId()).getAuthorId())){
+    update(author);
 
-       SqlParameterSource parameterSource=new BeanPropertySqlParameterSource(author);
-        Number number=jdbcInsert.executeAndReturnKey(parameterSource);
-        if (number!=null){
-            return number.intValue();
-        }
-        throw new RuntimeException("Cannot retrieve primary key");
-/*
+    }else {
+
+    SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(author);
+    Number number = jdbcInsert.executeAndReturnKey(parameterSource);
+    if (number != null) {
+        return number.intValue();
+         }
+    throw new RuntimeException("Cannot retrieve primary key");
+     }
+        return 1;
+        /*
         KeyHolder keyHolder=new GeneratedKeyHolder();
         jdbcTemplate.update("INSERT INTO author(author1, author2, author3, author4) VALUES (?,?,?,?)",
                 author.getAuthor1(),author.getAuthor2(),author.getAuthor3(),author.getAuthor4(),keyHolder);
@@ -55,17 +66,9 @@ public class AuthorJdbcTemplate implements AuthorService {
         return  number.intValue();*/
     }
 
-
-
     @Override
     public Author getAuthorOfBook(Integer authorId){
-        return (Author)jdbcTemplate.queryForObject("Select * from author WHERE  authorId=?", new Object[]{authorId},  new AuthorRowMapper());
-    }
-
-
-    private class AuthorRowMapper implements RowMapper {
-        @Override
-        public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return (Author)jdbcTemplate.queryForObject("Select * from author WHERE  authorId=?", new Object[]{authorId}, (ResultSet rs, int rowNum) ->{
             Author author=new Author();
             author.setAuthorId(rs.getInt("authorId"));
             author.setAuthor1(rs.getString("author1"));
@@ -73,6 +76,20 @@ public class AuthorJdbcTemplate implements AuthorService {
             author.setAuthor3(rs.getString("author3"));
             author.setAuthor4(rs.getString("author4"));
             return author;
+        });
+    }
+
+
+        private class AuthorRowMapper implements RowMapper {
+            @Override
+            public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Author author=new Author();
+                author.setAuthorId(rs.getInt("authorId"));
+                author.setAuthor1(rs.getString("author1"));
+                author.setAuthor2(rs.getString("author2"));
+                author.setAuthor3(rs.getString("author3"));
+                author.setAuthor4(rs.getString("author4"));
+                return author;
         }
     }
 }

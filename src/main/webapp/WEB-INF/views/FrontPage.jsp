@@ -123,7 +123,7 @@
                             </li>
                         </c:if>
 
-                        <c:if test="${pageContext.request.userPrincipal.name == 'admin'}">
+                        <c:if test="${pageContext.request.userPrincipal.name == 'johnny'}">
                             <li>
                             <a href= "<spring:url value="/welcome/admin/books"/>" >
                                 <input type="submit" value="<spring:message text="Administrator" />"  class="btn btn-default btn-outline btn-circle collapsed"  style="float:left"
@@ -157,7 +157,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                      <a href="#"> My Orders <span class="badge">0</span></a>
+                      <a href="<spring:url value="/welcome/rest/orders/"/>"> My Orders <span class="badge">0</span></a>
                 </li>
                 <li>
                         <a href="<spring:url value="/welcome/rest/cart/"/>"> ${pageContext.request.userPrincipal.name} Cart <span class="badge">${countCartItems}</span></a>

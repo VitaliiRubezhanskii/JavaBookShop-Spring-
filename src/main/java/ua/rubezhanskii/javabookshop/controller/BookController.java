@@ -8,76 +8,86 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import ua.rubezhanskii.javabookshop.datamanagement.jdbc.BookJdbcTemplate;
-import ua.rubezhanskii.javabookshop.datamanagement.jdbc.OrderJdbcTemplate;
+import ua.rubezhanskii.javabookshop.datamanagement.repository.BookService;
+import ua.rubezhanskii.javabookshop.datamanagement.repository.OrderService;
 import ua.rubezhanskii.javabookshop.model.Book;
+import ua.rubezhanskii.javabookshop.reports.ExcelFileBean;
+
+import java.io.File;
 
 @Controller
 @RequestMapping("/welcome/admin")
 public class BookController {
 
+   private BookService bookService;
+
+   private OrderService orderService;
+
+   //private ExcelImportService excelImportService;
 
    @Autowired
-   private BookJdbcTemplate bookJdbcTemplate;
-   @Autowired
-   private OrderJdbcTemplate orderJdbcTemplate;
+   public BookController(BookService bookService, OrderService orderService) {
+        this.bookService = bookService;
+        this.orderService = orderService;
+        //this.excelImportService = excelImportService;
+    }
 
-//<=================================================get View with Books================================================>
+    //<=================================================get View with Books================================================>
     @RequestMapping(value = "/books",method = RequestMethod.GET)
-    public String getBookPage( Model model) {
+    public String getBookPage(Model model) {
         Book book=new Book();
+        ExcelFileBean excelFileBean=new ExcelFileBean();
+        File inputFile=new File("C:\\Users\\Vitalii\\Desktop\\Books.xls");
+
         model.addAttribute("newBook", book);
-        model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
-        model.addAttribute("orders",orderJdbcTemplate.getOrders());
+        model.addAttribute("listBooks",bookService.getBooks());
+        model.addAttribute("orders",orderService.getOrders());
+        model.addAttribute("inputFile",excelFileBean);
        // model.setViewName("AdminPage");
         return "AdminPage";
 }
-   /*@RequestMapping(value = "/books.xls",method = RequestMethod.GET)
-    public String getExcel( Model model) {
-        Book book=new Book();
-        model.addAttribute("newBook", book);
-        model.addAttribute("listBooks",bookJdbcTemplate.getBooks());
-        model.addAttribute("orders",orderJdbcTemplate.getOrders());
-        // model.setViewName("AdminPage");
-        return "AdminPage";
-    }*/
+
+  /*  @RequestMapping(value = "/books", method = RequestMethod.POST)
+    public String upload(@ModelAttribute("inputFile") ExcelFileBean file, Model model) {
+
+        excelImportService.importFile(file);
+       // model.addAttribute("excelFileBean",excelFileBean);
+       // model.addAttribute("filename",excelFileBean.getFile().getOriginalFilename());
+        return "redirect:/welcome/admin/books";
+    }
+
+*/
 
 
     //<==========================================Add Book==========================================================>
     @RequestMapping(value = "/books/addBook", method = RequestMethod.POST)
-    public ModelAndView saveOrUpdate(@ModelAttribute("book")Book book) {
-        if(bookJdbcTemplate.exists(book.getBookId())){
-            bookJdbcTemplate.update(book);
-        }else {
-            bookJdbcTemplate.save(book);
-        }
+    public ModelAndView saveOrUpdate(@ModelAttribute("newBook")Book book) {
+        bookService.save(book);
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
     //<==========================================Remove Category==========================================================>
     @RequestMapping(value = "/books/remove/{bookId}")
     public ModelAndView removeBook(@PathVariable("bookId") Integer bookId){
-        bookJdbcTemplate.delete(bookId);
+        bookService.delete(bookId);
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
     //<==========================================Edit Category==========================================================>
 
     @RequestMapping("/books/edit/{bookId}")
     public ModelAndView editBook(@PathVariable("bookId") Integer bookId){
-        Book book=bookJdbcTemplate.getBookById(bookId);
-        return new ModelAndView("AdminPage","newBook",book);
-
+        ExcelFileBean excelFileBean=new ExcelFileBean();
+        Book book=bookService.getBookById(bookId);
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.addObject("newBook",book);
+        modelAndView.addObject("inputFile",excelFileBean);
+        modelAndView.setViewName("AdminPage");
+        return modelAndView;
     }
 
-    @RequestMapping(value = "/books/edit/save",method = RequestMethod.POST)
+    @RequestMapping(value = "",method = RequestMethod.POST)
     public ModelAndView editSave(@ModelAttribute("book") Book book){
-        bookJdbcTemplate.update(book);
+        bookService.update(book);
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
-
-   /* @RequestMapping("/welcome/download")
-    public String download(ModelAndView modelAndView){
-        modelAndView.addObject();
-        return "AdminPage";
-    }*/
 
 }
