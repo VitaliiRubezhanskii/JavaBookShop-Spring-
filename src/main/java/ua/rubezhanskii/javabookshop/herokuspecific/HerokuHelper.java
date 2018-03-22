@@ -46,7 +46,7 @@ public  class HerokuHelper {
     public void save(Customer customer) {
      final String INSERT_CUSTOMER="INSERT INTO customer (login) VALUES  (?)";
 
-     if (customerService.exists(customer.getLogin())) {
+     if (!customerService.exists(customer.getLogin())) {
             jdbcTemplate.update(INSERT_CUSTOMER, customer.getLogin());
         }
       //return   customerService.getCustomerByLogin(customer.getLogin()).getCustomerId();
