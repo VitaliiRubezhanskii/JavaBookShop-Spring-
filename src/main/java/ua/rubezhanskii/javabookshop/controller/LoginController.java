@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.rubezhanskii.javabookshop.datamanagement.jdbc.CustomerJdbcTemplate;
+import ua.rubezhanskii.javabookshop.herokuspecific.HerokuHelper;
 import ua.rubezhanskii.javabookshop.model.Customer;
 import ua.rubezhanskii.javabookshop.security.UserService;
 import ua.rubezhanskii.javabookshop.security.Users;
@@ -36,6 +37,8 @@ public class LoginController {
 
     @Autowired
     MessageSource messageSource;
+    @Autowired
+    private HerokuHelper herokuHelper;
 
 
 
@@ -93,8 +96,8 @@ public class LoginController {
         userService.save(users);
         Customer customer=new Customer();
         customer.setLogin(users.getUsername());
-        customerJdbcTemplate.save(customer);
-
+       // customerJdbcTemplate.save(customer);
+       herokuHelper.save(customer);
        model.addAttribute("userName",  users.getUsername());
       //  model.addAttribute("loggedinuser", getPrincipal());
         //return "success";

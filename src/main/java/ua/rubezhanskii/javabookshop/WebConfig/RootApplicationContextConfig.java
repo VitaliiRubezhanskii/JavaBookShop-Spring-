@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import ua.rubezhanskii.javabookshop.herokuspecific.HerokuHelper;
 
 import javax.sql.DataSource;
 
@@ -36,6 +37,8 @@ public class RootApplicationContextConfig {
         return new SimpleJdbcInsert(dataSource());
     }
 
+    @Bean
+    public HerokuHelper herokuHelper(){return new HerokuHelper();}
    /* @Bean
     public ExcelImportService excelImportService(){return new ExcelImportServiceImpl();}
 */
@@ -55,7 +58,7 @@ public class RootApplicationContextConfig {
         return dataSource;
     }
 
- /*   @Bean
+  /*  @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/javazone");

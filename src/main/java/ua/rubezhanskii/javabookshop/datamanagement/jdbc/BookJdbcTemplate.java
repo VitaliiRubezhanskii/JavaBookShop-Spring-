@@ -107,10 +107,10 @@ public class BookJdbcTemplate  implements BookService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean exists(Integer bookId) {
-        final String COUNT_BOOKS="SELECT count(*) FROM book WHERE bookId=?";
-        return (Integer)jdbcTemplate.queryForObject(COUNT_BOOKS,new Object[]{bookId},
-                new BookRowMapper())!=0;
+    public boolean exists(String bookTitle) {
+        List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM book WHERE bookTitle=?",new Object[]{bookTitle},
+                new BookRowMapper());
+        return books.size()>=1;
     }
 
     @Override

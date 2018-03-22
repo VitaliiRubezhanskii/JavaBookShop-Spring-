@@ -14,7 +14,7 @@ public interface BookService {
     Book getBookById(Integer bookId);
     Book getBookByISBN( String ISBN);
     List<Book> getBooksFromCategory(Integer categoryId);
-    boolean exists(Integer bookId);
+    boolean exists(String bookTitle);
     List<Book>getFirstSixBooks();
     Book getBookByIdFromCart(Integer bookId);
      List<Book> search(String criteria);

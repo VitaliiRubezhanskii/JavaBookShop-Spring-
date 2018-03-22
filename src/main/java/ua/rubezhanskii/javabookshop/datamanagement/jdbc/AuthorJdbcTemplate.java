@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class AuthorJdbcTemplate implements AuthorService {
@@ -67,7 +68,7 @@ public class AuthorJdbcTemplate implements AuthorService {
         Number number=keyHolder.getKey();
         return  number.intValue();*/
     }catch (Exception ex){
-            HerokuHelper.save(author);
+            new HerokuHelper().save(author);
         }
         return 1;
     }
@@ -84,6 +85,14 @@ public class AuthorJdbcTemplate implements AuthorService {
     public Author getAuthorByName(String name){
         final String AUTHOR_OF_BOOK="Select * from author WHERE  author1=?";
         return (Author)jdbcTemplate.queryForObject(AUTHOR_OF_BOOK, new Object[]{name}, new AuthorRowMapper());
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean exists(String author) {
+        List<Author> authors=(List<Author>)jdbcTemplate.query("SELECT * FROM author WHERE author1=?",new Object[]{author},
+                new AuthorRowMapper());
+        return authors.size()>=1;
     }
 
 

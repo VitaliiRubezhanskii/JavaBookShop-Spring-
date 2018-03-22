@@ -93,9 +93,9 @@ public class CartJdbcTemplate implements CartService{
     @Override
     @SuppressWarnings("unchecked")
     public boolean exists(Integer bookId) {
-        List<Book>books=(List<Book>)jdbcTemplate.query("SELECT * FROM cart WHERE bookId=?",new Object[]{bookId},
+        List<Cart>carts=(List<Cart>)jdbcTemplate.query("SELECT * FROM cart WHERE bookId=?",new Object[]{bookId},
                 new CartRowMapper());
-        return books.size()>=1;
+        return carts.size()>=1;
     }
 
     @Override

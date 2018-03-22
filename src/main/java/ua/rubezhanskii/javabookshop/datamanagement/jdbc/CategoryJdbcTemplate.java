@@ -60,7 +60,7 @@ public class CategoryJdbcTemplate implements CategoryService {
             throw new RuntimeException("Cannot retrieve primary key");
         } return number.intValue();
     }catch (Exception ex){
-            HerokuHelper.save(category);
+            new HerokuHelper().save(category);
         }
         return 1;
     }
@@ -101,9 +101,9 @@ public class CategoryJdbcTemplate implements CategoryService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean exists(Integer categoryId) {
-        final String COUNT_QUERY_CATEGORIES="SELECT count(*) FROM category WHERE categoryId=?";
-        return (Integer)jdbcTemplate.queryForObject(COUNT_QUERY_CATEGORIES,new Object[]{categoryId},
-                       new CategoryRowMapper())!=0;
+    public boolean exists(String category) {
+        List<Category>categories=(List<Category>)jdbcTemplate.query("SELECT * FROM category WHERE category=?",new Object[]{category},
+                new CategoryRowMapper());
+        return categories.size()>=1;
     }
 }

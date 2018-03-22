@@ -12,6 +12,6 @@ public interface CustomerService {
     void delete(Integer customerId);
     List<Customer> getCustomers();
     Customer getCustomerById(Integer customerId);
-    boolean exists(Integer customerId);
+    boolean exists(String login);
     Customer getCustomerByLogin(String login);
 }

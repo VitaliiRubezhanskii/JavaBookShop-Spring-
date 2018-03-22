@@ -8,4 +8,5 @@ public interface AuthorService {
     Integer save(Author author);
     Author getAuthorOfBook(Integer authorId);
     Author getAuthorByName(String name);
+    boolean exists(String bookTitle);
 }

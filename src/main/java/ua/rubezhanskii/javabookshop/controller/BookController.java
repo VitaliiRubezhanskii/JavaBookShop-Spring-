@@ -24,12 +24,15 @@ public class BookController {
 
    private OrderService orderService;
 
+   private HerokuHelper herokuHelper;
+
    //private ExcelImportService excelImportService;
 
    @Autowired
-   public BookController(BookService bookService, OrderService orderService) {
+   public BookController(BookService bookService,HerokuHelper herokuHelper, OrderService orderService) {
         this.bookService = bookService;
         this.orderService = orderService;
+        this.herokuHelper=herokuHelper;
         //this.excelImportService = excelImportService;
     }
 
@@ -64,7 +67,7 @@ public class BookController {
     @RequestMapping(value = "/books/addBook", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@ModelAttribute("newBook")Book book) {
        // bookService.save(book);
-        HerokuHelper.save(book);
+        herokuHelper.save(book);
         return new ModelAndView("redirect:/welcome/admin/books");
     }
     //<==========================================Remove Category==========================================================>

@@ -59,7 +59,7 @@ public class CustomerJdbcTemplate implements CustomerService {
             }
             throw new RuntimeException("Cannot retrieve primary key");
         }catch (Exception ex){
-            HerokuHelper.save(customer);
+            new HerokuHelper().save(customer);
         }
         return 1;
     }
@@ -93,9 +93,10 @@ public class CustomerJdbcTemplate implements CustomerService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean exists(Integer customerId) {
-      final String COUNT_CUSTOMERS="SELECT * FROM customer WHERE customerId=?";
-        return (Integer)jdbcTemplate.queryForObject(COUNT_CUSTOMERS,new Object[]{customerId},new CustomerRowMapper())!=0;
+    public boolean exists(String login) {
+        List<Customer>customers=(List<Customer>)jdbcTemplate.query("SELECT * FROM customer WHERE login=?",new Object[]{login},
+                new CustomerRowMapper());
+        return customers.size()>=1;
     }
 
     private class CustomerRowMapper implements RowMapper{
@@ -112,6 +113,7 @@ public class CustomerJdbcTemplate implements CustomerService {
             customer.setPhoneHome(rs.getString("phoneHome"));
             customer.setPhoneMobile(rs.getString("phoneMobile"));
             customer.setEmail(rs.getString("email"));
+            customer.setLogin(rs.getString("login"));
             return customer;
           }
         }

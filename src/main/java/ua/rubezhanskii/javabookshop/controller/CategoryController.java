@@ -31,7 +31,7 @@ public class CategoryController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@ModelAttribute("category")Category category) {
 
-        if(categoryService.exists(category.getCategoryId())){
+        if(categoryService.exists(category.getCategory())){
             categoryService.update(category);
         }else {
             categoryService.save(category);
