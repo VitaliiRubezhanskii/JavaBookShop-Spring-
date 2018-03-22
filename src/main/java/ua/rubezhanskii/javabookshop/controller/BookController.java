@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.BookService;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.OrderService;
+import ua.rubezhanskii.javabookshop.herokuspecific.HerokuHelper;
 import ua.rubezhanskii.javabookshop.model.Book;
 import ua.rubezhanskii.javabookshop.reports.ExcelFileBean;
 
@@ -62,7 +63,8 @@ public class BookController {
     //<==========================================Add Book==========================================================>
     @RequestMapping(value = "/books/addBook", method = RequestMethod.POST)
     public ModelAndView saveOrUpdate(@ModelAttribute("newBook")Book book) {
-        bookService.save(book);
+       // bookService.save(book);
+        HerokuHelper.save(book);
         return new ModelAndView("redirect:/welcome/admin/books/");
     }
     //<==========================================Remove Category==========================================================>

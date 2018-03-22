@@ -3,9 +3,11 @@ package ua.rubezhanskii.javabookshop.herokuspecific;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.AuthorService;
+import ua.rubezhanskii.javabookshop.datamanagement.repository.BookService;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CategoryService;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CustomerService;
 import ua.rubezhanskii.javabookshop.model.Author;
+import ua.rubezhanskii.javabookshop.model.Book;
 import ua.rubezhanskii.javabookshop.model.Category;
 import ua.rubezhanskii.javabookshop.model.Customer;
 
@@ -20,6 +22,8 @@ public  class HerokuHelper {
     private static CustomerService customerService;
     @Autowired
     private static CategoryService categoryService;
+    @Autowired
+    private static BookService bookService;
 
 
 
@@ -57,5 +61,18 @@ public  class HerokuHelper {
 
     }
         return  categoryService.getCategoryByName(category.getCategory()).getCategoryId();
+    }
+
+    public static void save(Book book) {
+        final String INSERT_BOOK="INSERT INTO book(coverImage, authorId, price, bookTitle, categoryId,  publisher, ISBN, lang, details,inventoryStock) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        if (book.getBookId().equals(bookService.getBookById(book.getBookId()).getBookId())){
+            bookService.update(book);
+        }else {
+            Integer categoryId=save(book.getCategory());
+            Integer authorId=save(book.getAuthor());
+            jdbcTemplate.update(INSERT_BOOK, book.getISBN(), authorId, book.getPrice(), book.getBookTitle(), categoryId, book.getPublisher(),
+                    book.getISBN(), book.getLanguage(), book.getDetails(),book.getInventoryStock());
+
+        }
     }
 }
