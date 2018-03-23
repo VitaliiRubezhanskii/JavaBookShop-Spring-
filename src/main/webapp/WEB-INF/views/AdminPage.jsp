@@ -86,11 +86,13 @@ body, html {
 
 
     <div class="container">
+        <p>Select file for upload</p>
+        <p>File should be same format as downloaded</p>>
         <c:url value="/welcome/admin/uploadExcelFile" var="uploadFileUrl" />
             <form:form modelAttribute="inputFile" method="post"  enctype="multipart/form-data" action="${uploadFileUrl}" >
 
             <form:input type="file" path="multipartFile"   />
-
+<br>
                 <input type="submit" value="Upload file" />
             </form:form>
 
