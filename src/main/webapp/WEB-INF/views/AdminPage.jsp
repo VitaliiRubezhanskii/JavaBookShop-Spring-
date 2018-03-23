@@ -86,13 +86,15 @@ body, html {
 
 
     <div class="container">
-        <form:form modelAttribute="inputFile" method="post" >
-            <form:label for="file" path="file">Please select Excel (.xls) file to upload</form:label><br/>
-            <form:input path="file" type="file"/><br/>
-            <input type="submit" />
-        </form:form>
+        <c:url value="/welcome/admin/uploadExcelFile" var="uploadFileUrl" />
+            <form:form modelAttribute="inputFile" method="post"  enctype="multipart/form-data" action="${uploadFileUrl}" >
 
-        <p>${inputFile.multipartFile.name}</p>
+            <form:input type="file" path="multipartFile"   />
+
+                <input type="submit" value="Upload file" />
+            </form:form>
+
+        <p>${message}</p>
 
 
         <c:url var="addAction"  value="/welcome/admin/books/addBook" ></c:url>

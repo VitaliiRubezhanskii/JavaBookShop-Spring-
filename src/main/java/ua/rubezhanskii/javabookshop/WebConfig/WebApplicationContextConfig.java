@@ -47,7 +47,10 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
     }
 */
 
-
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        return new CommonsMultipartResolver();
+    }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");

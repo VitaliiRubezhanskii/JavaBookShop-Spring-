@@ -84,7 +84,7 @@ public class AuthorJdbcTemplate implements AuthorService {
     @SuppressWarnings("unchecked")
     public Author getAuthorByName(String name){
         final String AUTHOR_OF_BOOK="Select * from author WHERE  author1=?";
-        return (Author)jdbcTemplate.queryForObject(AUTHOR_OF_BOOK, new Object[]{name}, new AuthorRowMapper());
+            return (Author) jdbcTemplate.queryForObject(AUTHOR_OF_BOOK, new Object[]{name}, new AuthorRowMapper());
     }
 
     @Override

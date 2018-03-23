@@ -43,7 +43,7 @@ public class BookJdbcTemplate  implements BookService {
     @Override
     public void save(Book book) {
         final String INSERT_BOOK="INSERT INTO book(coverImage, authorId, price, bookTitle, categoryId,  publisher, ISBN, lang, details,inventoryStock) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        if (book.getBookId().equals(getBookById(book.getBookId()).getBookId())){
+        if (exists(book.getBookTitle())){
             update(book);
         }else {
             Integer categoryId = categoryService.save(book.getCategory());

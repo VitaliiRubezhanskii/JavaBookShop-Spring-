@@ -96,7 +96,7 @@ public class CategoryJdbcTemplate implements CategoryService {
     @SuppressWarnings("unchecked")
     public Category getCategoryByName(String name){
         final String CATEGORY_BY_NAME="SELECT * FROM category WHERE category.category=?";
-        return (Category)jdbcTemplate.queryForObject(CATEGORY_BY_NAME,new Object[]{name},new CategoryRowMapper());
+            return (Category) jdbcTemplate.queryForObject(CATEGORY_BY_NAME, new Object[]{name}, new CategoryRowMapper());
     }
 
     @Override

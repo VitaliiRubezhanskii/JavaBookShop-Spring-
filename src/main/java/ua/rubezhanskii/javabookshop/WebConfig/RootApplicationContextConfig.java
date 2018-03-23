@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import ua.rubezhanskii.javabookshop.herokuspecific.HerokuHelper;
+import ua.rubezhanskii.javabookshop.reports.ExcelImportService;
+import ua.rubezhanskii.javabookshop.reports.ExcelImportServiceImpl;
 
 import javax.sql.DataSource;
 
@@ -39,14 +41,14 @@ public class RootApplicationContextConfig {
 
     @Bean
     public HerokuHelper herokuHelper(){return new HerokuHelper();}
-   /* @Bean
-    public ExcelImportService excelImportService(){return new ExcelImportServiceImpl();}
-*/
-
-
-
-
     @Bean
+    public ExcelImportService excelImportService(){return new ExcelImportServiceImpl();}
+
+
+
+
+
+  /*  @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
         dataSource.setUrl("jdbc:postgresql://ec2-54-75-239-237.eu-west-1.compute.amazonaws.com:5432/ddbvi80qhggkbp");
@@ -56,9 +58,9 @@ public class RootApplicationContextConfig {
         dataSource.setMaxTotal(5);
         dataSource.setInitialSize(3);
         return dataSource;
-    }
+    }*/
 
-  /*  @Bean
+    @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/javazone");
@@ -69,7 +71,7 @@ public class RootApplicationContextConfig {
         dataSource.setInitialSize(3);
         return dataSource;
     }
-*/
+
   /*  @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         LocalContainerEntityManagerFactoryBean factoryBean=new LocalContainerEntityManagerFactoryBean();

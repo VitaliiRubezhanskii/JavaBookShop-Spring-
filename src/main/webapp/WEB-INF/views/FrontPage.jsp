@@ -123,7 +123,7 @@
                             </li>
                         </c:if>
 
-                        <c:if test="${pageContext.request.userPrincipal.name == 'johnny'}">
+                        <c:if test="${pageContext.request.userPrincipal.name == 'admin'}">
                             <li>
                             <a href= "<spring:url value="/welcome/admin/books"/>" >
                                 <input type="submit" value="<spring:message text="Administrator" />"  class="btn btn-default btn-outline btn-circle collapsed"  style="float:left"

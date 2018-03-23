@@ -34,22 +34,19 @@ public  class HerokuHelper {
 
     public  Integer save(Author author) {
         if (!authorService.exists(author.getAuthor1())) {
-
             final String INSERT_AUTHOR="INSERT INTO author (author1, author2, author3, author4) VALUES (?,?,?,?)";
             jdbcTemplate.update(INSERT_AUTHOR,author.getAuthor1(),author.getAuthor2(),author.getAuthor3(),author.getAuthor4());
         }
         return authorService.getAuthorByName(author.getAuthor1()).getAuthorId() ;
-
     }
 
 
-    public void save(Customer customer) {
+    public Integer save(Customer customer) {
      final String INSERT_CUSTOMER="INSERT INTO customer (login) VALUES  (?)";
-
      if (!customerService.exists(customer.getLogin())) {
             jdbcTemplate.update(INSERT_CUSTOMER, customer.getLogin());
         }
-      //return   customerService.getCustomerByLogin(customer.getLogin()).getCustomerId();
+        return   customerService.getCustomerByLogin(customer.getLogin()).getCustomerId();
     }
 
     public  Integer save(Category category) {
@@ -59,7 +56,6 @@ public  class HerokuHelper {
             final String INSERT_CATEGORY = "INSERT  INTO category (category) VALUES (?)";
             jdbcTemplate.update(INSERT_CATEGORY, category.getCategory());
         }
-
         return  categoryService.getCategoryByName(category.getCategory()).getCategoryId();
     }
 
