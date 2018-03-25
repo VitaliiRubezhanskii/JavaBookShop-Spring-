@@ -11,18 +11,20 @@ public class Author implements Serializable {
     private String author2;
     private String author3;
     private String author4;
+    private  String aboutAuthor;
 
 
     public Author() {
 
     }
 
-    public Author(Integer authorId, String author1, String author2, String author3, String author4) {
+    public Author(Integer authorId, String author1, String author2, String author3, String author4,String aboutAuthor) {
         this.authorId = authorId;
         this.author1 = author1;
         this.author2 = author2;
         this.author3 = author3;
         this.author4 = author4;
+        this.aboutAuthor=aboutAuthor;
     }
 
 
@@ -65,6 +67,10 @@ public class Author implements Serializable {
         this.author4 = author4;
     }
 
-
-
+    public String getAboutAuthor() {
+        return aboutAuthor;
+    }
+    public void setAboutAuthor(String aboutAuthor) {
+        this.aboutAuthor = aboutAuthor;
+    }
 }

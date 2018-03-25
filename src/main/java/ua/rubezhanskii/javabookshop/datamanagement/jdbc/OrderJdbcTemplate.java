@@ -66,6 +66,7 @@ public class OrderJdbcTemplate implements OrderService{
             order.setOrderDate(rs.getDate("orderDate"));
             // order.setCartItems(cartJdbcTemplate.getCartItemsByMachineName(rs.getString("machineName")));
             order.setGlobalId(rs.getString("globalId"));
+            order.setSoldItems(rs.getInt("soldItems"));
             return order ;
             }
         }

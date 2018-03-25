@@ -8,13 +8,15 @@ public class CartItemDto {
     public CartItemDto() {
     }
 
-    public CartItemDto(Book book, String machineName) {
+    public CartItemDto(Book book, String machineName,Integer bookQuantity) {
         this.book = book;
         this.machineName = machineName;
+        this.bookQuantity=bookQuantity;
     }
 
     private Book book;
     private String machineName;
+    private Integer bookQuantity;
 
     public Book getBook() {
         return book;
@@ -28,6 +30,13 @@ public class CartItemDto {
     }
     public void setMachineName(String machineName) {
         this.machineName = machineName;
+    }
+
+    public Integer getBookQuantity() {
+        return bookQuantity;
+    }
+    public void setBookQuantity(Integer bookQuantity) {
+        this.bookQuantity = bookQuantity;
     }
 }
 

@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="page" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 
 <html>
@@ -89,6 +90,7 @@
                         <th>Author</th>
                         <th>Category</th>
                         <th>Price</th>
+                        <th>Quantity</th>
 
 
                         </thead>
@@ -105,11 +107,12 @@
                                 <td>${item.book.author.author1}</td>
                                 <td>${item.book.category.category}</td>
                                 <td>${item.book.price}</td>
+                                <td>${item.bookQuantity}</td>
 
 
 
                                 <c:if test="${!empty item.book.bookId}">
-                                <td><a href="<c:url value='/welcome/rest/cart/edit/${item.book.bookId}' />" class="btn btn-success custom-width">edit</a></td>
+
                                 <td><a href="<c:url value='/welcome/rest/cart/remove/${item.book.bookId}' />" class="btn btn-danger custom-width">delete</a></td>
                                 </c:if>
                             </tr>
@@ -134,13 +137,16 @@
             </div>
 
 
-<c:set var="total" value="${0}"/>
+        <c:set var="total" value="${0}"/>
 
         <c:forEach var="x" items="${listItems}">
-            <c:set var="total" value="${total+x.book.price*x.book.bookQuantity}"/>
+            <c:set var="total"  value="${total+x.book.price*x.bookQuantity}"/>
+
         </c:forEach>
 
-        <h3 class="text-center">Total: ${total} $</h3>
+        <h3 class="text-center">
+           Total: ${total}
+        </h3>
 
 
         <a href="<spring:url value="/welcome/home" />"

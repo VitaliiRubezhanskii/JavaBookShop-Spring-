@@ -187,6 +187,9 @@ body {font-family: "Lato", sans-serif;}
                 <p>
                     <strong>Price </strong> : ${book.price} $
                 </p>
+                <p>
+                    <strong>In Stock </strong> : ${book.inventoryStock} books avaliable
+                </p>
 
                     <c:url var="addAction"  value="/welcome/rest/cart/book?ISBN=${book.ISBN}" ></c:url>
                     <form:form action="${addAction}" commandName="book">
@@ -194,7 +197,7 @@ body {font-family: "Lato", sans-serif;}
                     <div class="row">
                         <label class="col-md-3 control-lable" for="bookQuantity"><p><strong>Quantity:</strong></p></label>
                 <div class="col-md-7">
-                    <form:input type="text" path="bookQuantity" size="1"  />
+                    <form:input type="number" min="0" value="0" path="bookQuantity" size="1"  />
                 </div>
             </div>
 
@@ -203,13 +206,15 @@ body {font-family: "Lato", sans-serif;}
                                 <strong>Warning!</strong> This book already exists in the cart
                             </div>
 
+
+
                         <c:if test="${trigger}">
                             <input type="button" onclick="show()" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
                         </c:if>
 
                         <c:if test="${not trigger}">
                             <a href= "<spring:url value="/welcome/rest/cart/book?ISBN=${book.ISBN}"/>" >
-                                <input type="submit" value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
+                                <input type="submit"  value="<spring:message text="Add to cart" />"  class="btn btn-primary btn-sm" />
                             </a>
                         </c:if>
 
@@ -233,23 +238,16 @@ body {font-family: "Lato", sans-serif;}
 	<button class="tablink" onclick="openPage('About Author', this, '#00008B')">About Author</button>
 	
 <div id="About Book" class="tabcontent" style="padding-top:30px;padding-bottom:30px">
-<p>
-This HTML template contains 3 columns as well as a separate header and footer. The left and right columns remain a fixed size (i.e. the center column expands and contracts). The template is a "liquid layout", so it expands and contracts as you change your browser size.
-This HTML template contains 3 columns as well as a separate header and footer. The left and right columns remain a fixed size (i.e. the center column expands and contracts). The template is a "liquid layout", so it expands and contracts as you change your browser size.
-This HTML template contains 3 columns as well as a separate header and footer. The left and right columns remain a fixed size (i.e. the center column expands and contracts). The template is a "liquid layout", so it expands and contracts as you change your browser size.
-</p>
+
+    ${book.details}
 
 </div>
 
 <div id="About Author" class="tabcontent" style="padding-top:30px;padding-bottom:30px">
+${book.author.aboutAuthor}
 
-<p>
-
-This HTML template contains 3 columns as well as a separate header and footer. The left and right columns remain a fixed size (i.e. the center column expands and contracts). The template is a "liquid layout", so it expands and contracts as you change your browser size.
-This HTML template contains 3 columns as well as a separate header and footer. The left and right columns remain a fixed size (i.e. the center column expands and contracts). The template is a "liquid layout", so it expands and contracts as you change your browser size.
-This HTML template contains 3 columns as well as a separate header and footer. The left and right columns remain a fixed size (i.e. the center column expands and contracts). The template is a "liquid layout", so it expands and contracts as you change your browser size.</p>
 </div>
-	
+
 	<script>
 function openPage(pageName,elmnt,color) {
     var i, tabcontent, tablinks;

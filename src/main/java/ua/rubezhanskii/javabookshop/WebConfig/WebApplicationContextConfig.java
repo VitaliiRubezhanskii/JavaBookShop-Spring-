@@ -13,7 +13,8 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-import ua.rubezhanskii.javabookshop.reports.ExcelView;
+import ua.rubezhanskii.javabookshop.reports.SalesExcelView;
+import ua.rubezhanskii.javabookshop.reports.StockExcelView;
 
 import java.util.ArrayList;
 
@@ -32,8 +33,13 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
     }
 
     @Bean("excelView")
-    public ExcelView excelView(){
-        return  new ExcelView();
+    public StockExcelView excelView(){
+        return  new StockExcelView();
+    }
+
+    @Bean("salesExcelView")
+    public SalesExcelView salesExcelView(){
+       return new SalesExcelView();
     }
 
  /*  @Bean
@@ -120,6 +126,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter  {
         ArrayList<View> views=new ArrayList<View>();
         views.add(jsonView());
         views.add(excelView());
+        views.add(salesExcelView());
         resolver.setDefaultViews(views);
         return  resolver;
     }

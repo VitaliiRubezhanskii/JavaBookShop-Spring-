@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component("excelView")
-public class ExcelView extends AbstractXlsView {
+public class StockExcelView extends AbstractXlsView {
 
     @Override
     protected void buildExcelDocument(Map<String, Object> model,Workbook workbook,HttpServletRequest request, HttpServletResponse response) throws Exception {

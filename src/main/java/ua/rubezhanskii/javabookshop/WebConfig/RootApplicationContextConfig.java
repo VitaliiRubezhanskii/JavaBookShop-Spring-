@@ -60,7 +60,7 @@ public class RootApplicationContextConfig {
         return dataSource;
     }
 
-   /* @Bean
+  /*  @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/javazone");

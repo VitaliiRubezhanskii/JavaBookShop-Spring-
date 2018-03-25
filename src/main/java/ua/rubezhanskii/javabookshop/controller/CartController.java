@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.BookService;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CartService;
+import ua.rubezhanskii.javabookshop.exceptions.StockExhaustedException;
 import ua.rubezhanskii.javabookshop.model.Book;
 
 @Controller
@@ -34,9 +35,23 @@ public class CartController {
 
     //<==========================================Add Category==========================================================>
     @RequestMapping(value = "/book", method = RequestMethod.POST)
-    public ModelAndView saveOrUpdate(@RequestParam("ISBN")String ISBN, ModelAndView modelAndView) {
-            cartService.save(bookService.getBookByISBN(ISBN));
+    public ModelAndView saveOrUpdate(@RequestParam("ISBN")String ISBN, @ModelAttribute("book")Book book, ModelAndView modelAndView) {
+        Book book1=bookService.getBookByISBN(ISBN);
+        book1.setBookQuantity(book.getBookQuantity());
+        if (book.getBookQuantity()>book1.getInventoryStock()){
+            throw new StockExhaustedException("You choose quantity that exceeds books available in stock");
+        }else {
+            cartService.save(book1);
+        }
             return new ModelAndView("redirect:/welcome/rest/cart/");
+    }
+
+    @ExceptionHandler(StockExhaustedException.class)
+    public ModelAndView handleStockExhaustedException(StockExhaustedException exception){
+        ModelAndView model=new ModelAndView();
+        model.addObject("errorMessage",exception.getMessage());
+        model.setViewName("StockExhaustedException");
+        return model;
     }
 
     //<==========================================Remove Category=======================================================>

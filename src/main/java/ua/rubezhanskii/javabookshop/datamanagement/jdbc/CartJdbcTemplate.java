@@ -35,7 +35,7 @@ public class CartJdbcTemplate implements CartService{
 
     @Override
     public void update(Book book) {
-        CartItemDto cartItem=new CartItemDto(book,null);
+        CartItemDto cartItem=new CartItemDto(book,null,null);
         final String UPDATE_CART="UPDATE cart SET bookQuantity=?, creationTime=now(),globalId=?, login=? WHERE bookId=?";
         jdbcTemplate.update(UPDATE_CART, cartItem.getBook().getBookId(),
                 cartItem.getBook().getBookQuantity(),new Cart().generateGUID(),getLoggedUserName());
@@ -43,9 +43,11 @@ public class CartJdbcTemplate implements CartService{
 
     @Override
     public void save(Book book) {
-        CartItemDto cartItem=new CartItemDto(book,null);
+        CartItemDto cartItem=new CartItemDto(book,null,null);
         final String INSRT_INTO_CART="INSERT INTO cart(bookId, bookQuantity, globalId,creationTime,login) VALUES (?,?,?,NOW(),?)";
+        final String UPDATE_STOCK="Update book set inventoryStock=inventoryStock-?,bookQuantity=bookQuantity+? WHERE bookId=?";
         jdbcTemplate.update(INSRT_INTO_CART,cartItem.getBook().getBookId(),cartItem.getBook().getBookQuantity(),new Cart().generateGUID(),getLoggedUserName());
+        jdbcTemplate.update(UPDATE_STOCK,book.getBookQuantity(),book.getBookQuantity(),book.getBookId());
     }
 
     @Override
@@ -101,15 +103,15 @@ public class CartJdbcTemplate implements CartService{
     @Override
     public void saveOrder(Customer customer){
         List<CartItemDto> cartItems= getCartItemsByLogin(getLoggedUserName());
-        final String INSERT_ORDER="INSERT INTO ordertable(bookId,customerId, orderDate, globalId) VALUES (?,?,NOW(),?)";
+        final String INSERT_ORDER="INSERT INTO ordertable(bookId,customerId, orderDate, globalId,soldItems) VALUES (?,?,NOW(),?,?)";
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal()!=null){
              String login=getLoggedUserName();
              Customer customer1=customerService.getCustomerByLogin(login);
-             cartItems.forEach(item -> jdbcTemplate.update(INSERT_ORDER, item.getBook().getBookId(), customer1.getCustomerId(), new Cart().generateGUID()));
+             cartItems.forEach(item -> jdbcTemplate.update(INSERT_ORDER, item.getBook().getBookId(), customer1.getCustomerId(), new Cart().generateGUID(),item.getBookQuantity()));
         }
         else {
             Integer customerId = customerService.save(customer);
-            cartItems.forEach(item -> jdbcTemplate.update(INSERT_ORDER, item.getBook().getBookId(), customerId, new Cart().generateGUID()));
+            cartItems.forEach(item -> jdbcTemplate.update(INSERT_ORDER, item.getBook().getBookId(), customerId, new Cart().generateGUID(),item.getBookQuantity()));
         }
         deleteByCustomer(getLoggedUserName());
     }
@@ -147,6 +149,7 @@ public class CartJdbcTemplate implements CartService{
         public CartItemDto mapRow(ResultSet rs, int rowNum) throws SQLException {
             CartItemDto cartItemDto=new CartItemDto();
             cartItemDto.setBook(bookService.getBookById(rs.getInt("bookId")));
+            cartItemDto.setBookQuantity(rs.getInt("bookQuantity"));
             cartItemDto.setMachineName(rs.getString("login"));
             return cartItemDto;
         }

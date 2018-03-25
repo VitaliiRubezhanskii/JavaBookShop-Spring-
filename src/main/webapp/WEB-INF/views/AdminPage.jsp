@@ -106,7 +106,6 @@ body, html {
 
                 <a href="<c:url value='/welcome/admin/books.xls' />">
                     Download Stock in Excel
-
                 </a>
 
            </div>
@@ -222,7 +221,13 @@ body, html {
 
 
 <div id="Sales" class="tabcontent">
-  
+    <div style="padding-top: 15px">
+
+        <a href="<c:url value='/welcome/admin/books.xlsx' />">
+            Download Orders in Excel
+        </a>
+
+    </div>
             <div class="well lead">Sales and Orders</div>
         <div class="generic-container">
 			<div class="generic-container">
@@ -242,36 +247,41 @@ body, html {
                         <tbody>
 
 
-                            <c:set var="total" value="${x.book.price*x.book.bookQuantity}"/>
+                            <c:set var="sale" value="${0}"/>
 
 
                         <c:forEach items="${orders}" var="order">
-                            <c:set var="total" value="${order.book.price*order.book.bookQuantity}"/>
+                            <c:set var="sale" value="${order.book.price*order.soldItems}"/>
                             <tr>
                                 <td>${order.customer.firstName}</td>
                                 <td>${order.customer.lastName}</td>
                                 <td>${order.customer.email}</td>
                                 <td><img  class="card-block text-nowrap" src="<c:url value="/resources/images/${order.book.coverImage}.jpg"></c:url>" alt="" width="90" height="135" ></td>
                                 <td>${order.book.bookTitle}</td>
-                                <td>${order.book.bookQuantity}</td>
+                                <td>${order.soldItems}</td>
                                 <td>${order.book.price}</td>
-                                <td>${total}</td>
+                                <td>${sale}</td>
                             </tr>
+
                         </c:forEach>
+
                         </tbody>
                     </table>
 
-                    <c:set var="total" value="${0}"/>
 
-                    <c:forEach var="x" items="${orders}">
-                        <c:set var="total" value="${total+x.book.price*x.book.bookQuantity}"/>
-                    </c:forEach>
 
-                    <h3 class="text-center">Total: ${total} $</h3>
 
                 </div>
+
             </div>
          </div>
+    <c:set var="sum" value="${0}"/>
+    <c:forEach var="x" items="${orders}">
+        <c:set var="sum" value="${sum+x.book.price*x.soldItems}"/>
+    </c:forEach>
+
+    <h3 class="text-center">Total: ${sum} $</h3>
+
     </div>
 
 <script>

@@ -105,6 +105,7 @@ public class AuthorJdbcTemplate implements AuthorService {
                 author.setAuthor2(rs.getString("author2"));
                 author.setAuthor3(rs.getString("author3"));
                 author.setAuthor4(rs.getString("author4"));
+                author.setAboutAuthor(rs.getString("aboutAuthor"));
                 return author;
         }
     }

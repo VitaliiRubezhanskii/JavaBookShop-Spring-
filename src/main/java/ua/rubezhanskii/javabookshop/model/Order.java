@@ -14,16 +14,18 @@ public class Order implements Serializable {
   //  private List<CartItemDto> cartItems;
     private Customer customer;
     private String globalId;
+    private Integer soldItems;
 
     public Order() {
     }
 
-    public Order(Integer orderId, Book book, Date orderDate, Customer customer, String globalId) {
+    public Order(Integer orderId, Book book, Date orderDate, Customer customer, String globalId, Integer soldItems) {
         this.orderId = orderId;
         this.book = book;
         this.orderDate = orderDate;
         this.customer = customer;
         this.globalId = globalId;
+        this.soldItems=soldItems;
     }
 
     public String getGlobalId() {
@@ -47,6 +49,13 @@ public class Order implements Serializable {
     public void setCartItems(List<CartItemDto> cartItems) {
         this.cartItems = cartItems;
     }*/
+
+    public Integer getSoldItems() {
+        return soldItems;
+    }
+    public void setSoldItems(Integer soldItems) {
+        this.soldItems = soldItems;
+    }
 
     public Integer getOrderId() {
         return orderId;
