@@ -223,7 +223,7 @@ body, html {
 <div id="Sales" class="tabcontent">
     <div style="padding-top: 15px">
 
-        <a href="<c:url value='/welcome/admin/books.xlsx' />">
+        <a href="<c:url value='/welcome/admin/books.xls' />">
             Download Orders in Excel
         </a>
 
