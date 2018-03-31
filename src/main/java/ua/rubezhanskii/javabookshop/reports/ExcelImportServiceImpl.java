@@ -1,6 +1,5 @@
 package ua.rubezhanskii.javabookshop.reports;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -108,12 +107,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
             e.printStackTrace();
         }
     }
-    private void copyFile(File source,File dest) throws IOException{
 
-        FileUtils.copyFile(source,dest);
-
-
-    }
 }
 
 

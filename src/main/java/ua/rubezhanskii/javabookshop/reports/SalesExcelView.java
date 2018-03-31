@@ -19,7 +19,7 @@ public class SalesExcelView extends AbstractXlsxView {
     @Override
     protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"Sales.xls\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Sales.xlsx\"");
 
         @SuppressWarnings("unchecked")
         List<Order> orders = (List<Order>) model.get("orders");

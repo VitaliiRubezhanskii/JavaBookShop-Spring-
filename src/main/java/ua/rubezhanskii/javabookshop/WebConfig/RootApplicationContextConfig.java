@@ -48,7 +48,7 @@ public class RootApplicationContextConfig {
 
 
 
-    @Bean
+ /*   @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
         dataSource.setUrl("jdbc:postgresql://ec2-54-75-239-237.eu-west-1.compute.amazonaws.com:5432/ddbvi80qhggkbp");
@@ -58,9 +58,8 @@ public class RootApplicationContextConfig {
         dataSource.setMaxTotal(5);
         dataSource.setInitialSize(3);
         return dataSource;
-    }
-
-  /*  @Bean
+    }*/
+    @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource=new BasicDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/javazone");
@@ -70,7 +69,7 @@ public class RootApplicationContextConfig {
         dataSource.setMaxTotal(5);
         dataSource.setInitialSize(3);
         return dataSource;
-    }*/
+    }
 
   /*  @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
