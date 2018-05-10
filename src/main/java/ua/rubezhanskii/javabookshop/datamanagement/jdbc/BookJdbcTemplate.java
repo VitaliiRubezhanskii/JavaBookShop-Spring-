@@ -1,5 +1,8 @@
 package ua.rubezhanskii.javabookshop.datamanagement.jdbc;
 
+import com.ibatis.common.jdbc.ScriptRunner;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,12 +13,22 @@ import ua.rubezhanskii.javabookshop.datamanagement.repository.BookService;
 import ua.rubezhanskii.javabookshop.datamanagement.repository.CategoryService;
 import ua.rubezhanskii.javabookshop.model.Book;
 
+import javax.annotation.PostConstruct;
+import javax.persistence.Basic;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-@Service
-public class BookJdbcTemplate  implements BookService {
 
+@Service
+public class BookJdbcTemplate  implements BookService{
+
+    @Autowired
+    private BasicDataSource dataSource;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -25,6 +38,8 @@ public class BookJdbcTemplate  implements BookService {
 
     private AuthorService authorService;
 
+
+
     @Autowired
     public BookJdbcTemplate(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate, CategoryService categoryService, AuthorService authorService) {
         this.jdbcTemplate = jdbcTemplate;
@@ -32,6 +47,38 @@ public class BookJdbcTemplate  implements BookService {
         this.categoryService = categoryService;
         this.authorService = authorService;
     }
+
+
+//    @PostConstruct
+//    public void initializeDB(){
+//        scriptRunner();
+//    }
+
+
+//    private void scriptRunner(){
+//
+//        String aSQLScriptFilePath = "src/resources/sql/script.sql";
+//
+//        try {
+//
+//            Connection con = dataSource.getConnection();
+//            // Initialize object for ScripRunner
+//            ScriptRunner sr = new ScriptRunner(con, true, false);
+//
+//            // Give the input file to Reader
+//            Reader reader = new BufferedReader(
+//                    new FileReader(aSQLScriptFilePath));
+//
+//            // Exctute script
+//            sr.runScript(reader);
+//
+//
+//        } catch (Exception e) {
+//            System.err.println("Failed to Execute" + aSQLScriptFilePath
+//                    + " The error is " + e.getMessage());
+//        }
+//        System.out.println("------------------------TEST--TEST--TEST--TEST--TEST---------------------");
+//    }
 
     @Override
     public void update(Book book) {
