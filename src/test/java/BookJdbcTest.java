@@ -1,18 +1,21 @@
 package helpers;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ua.rubezhanskii.javabookshop.model.Book;
-
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
+import ua.rubezhanskii.javabookshop.model.Category;
 
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.List;
+
+import static junit.framework.Assert.*;
 
 public class BookJdbcTest {
 
@@ -88,11 +91,85 @@ public class BookJdbcTest {
     }
 
 
-                    @Test
-                    public void test(){
 
-                    }
 
+    @Test
+    public void update_Book_Should_update_7_Rows() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String testQuery="update book set bookTitle=? where bookId<=?";
+        int updatedRows=runner.update(connection,testQuery,"testBook",7);
+        assertEquals(updatedRows,7);
+    }
+    @Test
+    public void delete_Book_Should_delete_Seven_Rows() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String testQuery="delete from book where bookId<=?";
+        int deletedRows=runner.update(connection,testQuery,"7");
+        assertEquals(deletedRows,7);
+    }
+
+    @Test
+    public void getAllBooks_With_correct_Fields() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String query="select * from book";
+        List<Book> books= (List<Book>)runner.query(connection,query,new BookRowHandler(connection));
+        assertEquals((int)books.get(7).getBookId(),8);
+        assertEquals(books.get(7).getISBN(),"ISBN 978-1-4842-2979-8");
+        assertEquals(books.size(),40);
+    }
+
+    @Test
+    public void save_Books_Should_save_Only_One_Row() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String testQuery="INSERT INTO book(coverImage, authorId, price, bookTitle, categoryId,  publisher, ISBN, lang, details,inventoryStock) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        Book book=new Book(50,"coverTest",5.0,"TestTitle",null,"testPub","testIsbn","testLang","testDetails",null,1,2);
+        int rowsInserted=runner.update(connection,testQuery,book.getCoverImage(),15,book.getPrice(),book.getBookTitle(),89,book.getPublisher(),book.getISBN(),book.getLanguage(),book.getDetails(),book.getInventoryStock());
+        assertEquals(rowsInserted,1);
+    }
+    @Test
+    public void save_Books_Should_save_with_proper_ID() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String testQuery="INSERT INTO book(coverImage, authorId, price, bookTitle, categoryId,  publisher, ISBN, lang, details,inventoryStock) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        Book book=new Book(50,"coverTest",5.0,"TestTitle",null,"testPub","testIsbn","testLang","testDetails",null,1,2);
+        int idExpected=runner.insert(connection,testQuery,new ScalarHandler<Integer>(),book.getCoverImage(),15,book.getPrice(),book.getBookTitle(),89,book.getPublisher(),book.getISBN(),book.getLanguage(),book.getDetails(),book.getInventoryStock());
+        assertEquals(idExpected,41);
+    }
+
+    @Test
+    public  void get_Book_By_Id_Must_Return_book_with_correct_id() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String query="select * from book where bookId=?";
+        List<Book> book= (List<Book>)runner.query(connection,query,new BookRowHandler(connection),37);
+        assertTrue(book.get(0) instanceof Book);
+        assertNotNull(book.get(0));
+        assertEquals((int)book.get(0).getBookId(),37);
+    }
+
+    @Test
+    public  void test_If_Book_with_given_Title_exists() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String query="select * from book where bookTitle=?";
+        List<Book> book= (List<Book>)runner.query(connection,query,new BookRowHandler(connection),new Object[]{"Java Lambdas and Parallel Streams"});
+        assertNotNull(book.get(0));
+        assertTrue(book.get(0) instanceof Book);
+    }
+
+    @Test
+    public  void test_If_Book_with_given_Title_NOT_exists() throws Exception{
+
+        QueryRunner runner=new QueryRunner();
+        String query="select * from book where bookTitle=?";
+        List<Book> book= (List<Book>)runner.query(connection,query,new BookRowHandler(connection),new Object[]{"Concurrency"});
+
+        assertEquals(book.size(),0);
+    }
                     @After
                     public void tearDown() throws Exception{
                         statement.execute("DROP TABLE book");

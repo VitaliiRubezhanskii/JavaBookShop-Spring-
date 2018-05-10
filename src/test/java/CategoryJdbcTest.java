@@ -57,10 +57,10 @@ public class CategoryJdbcTest {
     public void save_Category_Should_save_Expected_ID() throws Exception{
 
         QueryRunner runner=new QueryRunner();
-            String testQuery="insert into category(category) values(?)";
-                 int returnedId=runner.insert(connection,testQuery,new ScalarHandler<Integer>(),
-                         "TestCategory");
-                     assertEquals(returnedId,12);
+        String testQuery="insert into category(category) values(?)";
+        int returnedId=runner.insert(connection,testQuery,new ScalarHandler<Integer>(),
+                "TestCategory");
+        assertEquals(returnedId,12);
     }
     @Test
     public void getAllCategories_With_correct_Fields() throws Exception{
